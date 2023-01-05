@@ -1,5 +1,20 @@
-apply plugin: 'com.android.library'
-
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'//用来推送aar到jitpack
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.18647499996'//插件id，格式：com.github.18647499996
+                artifactId = 'base'//插件名称
+                version = '1.0'//版本号
+                //引用使用格式：implementation 'com.github.18647499996:component:1.0'
+            }
+        }
+    }
+}
 android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
@@ -20,6 +35,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -29,4 +49,29 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
+    // 初始化控件插件
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    // google
+    api 'com.google.code.gson:gson:2.10'
+    // RxJava3 Android
+    api 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    // RxAndroid
+    api 'io.reactivex:rxandroid:1.2.1'
+    // retrofit2
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    // retrofit 数据类型转换工厂
+    api 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    // retrofit 数据模型转换工厂
+    api 'com.squareup.retrofit2:adapter-rxjava:2.9.0'
+    // retrofit json 转换工厂
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // 侧滑退出Activity
+    api 'me.imid.swipebacklayout.lib:library:1.1.0'
+    // 沉浸式状态栏
+    api 'com.gyf.immersionbar:immersionbar:3.0.0'
+    // 常用工具类
+    api 'com.github.18647499996:Utils:1.0.1'
+    // 常用开发自定义组件
+    api 'com.github.18647499996:Component:1.0.5'
 }
