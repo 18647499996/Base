@@ -1,0 +1,3 @@
+include ':mvp'
+include ':app'
+rootProject.name = "Base"
