@@ -1,13 +1,12 @@
 package com.liudonghan.base;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.liudonghan.mvp.BaseResult;
 import com.liudonghan.mvp.BaseTransformerManager;
-import com.liudonghan.mvp.GsonUtils;
-import com.liudonghan.utils.LogUtils;
 
 import java.io.IOException;
 
@@ -40,7 +39,7 @@ public class CodeInterceptor implements Interceptor {
             if (!TextUtils.isEmpty(bodyStr)) {
                 BaseResult baseResult = GsonUtils.fromJson(bodyStr, BaseResult.class);
                 if (null == baseResult) {
-                    LogUtils.e("服务器数据：" + bodyStr);
+                    Log.e("服务器数据：" , bodyStr);
                     throw new BaseTransformerManager.ServerException();
                 }
                 code = baseResult.getCode();

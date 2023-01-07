@@ -3,8 +3,6 @@ package com.liudonghan.base;
 
 import android.text.TextUtils;
 
-import com.liudonghan.mvp.GsonUtils;
-
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;

@@ -27,6 +27,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -45,15 +46,10 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     // 初始化控件插件
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
-    // google
-    api 'com.google.code.gson:gson:2.10'
     // RxJava3 Android
     api 'io.reactivex.rxjava3:rxandroid:3.0.2'
     // RxAndroid
@@ -70,8 +66,6 @@ dependencies {
     api 'me.imid.swipebacklayout.lib:library:1.1.0'
     // 沉浸式状态栏
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
-    // 常用工具类
-    api 'com.github.18647499996:Utils:1.0.1'
     // 常用开发自定义组件
-    api 'com.github.18647499996:Component:1.0.5'
+    api 'com.github.18647499996:Component:1.0.7'
 }

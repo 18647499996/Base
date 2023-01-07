@@ -45,8 +45,6 @@ public class BaseRetrofitManager {
 
     /**
      * 初始化retrofit（ 多域名配置 ）
-     *
-     * @return BaseRetrofitManager
      */
     public void initMultiRetrofit() {
         for (int i = 0; i < modelSparseArray.size(); i++) {

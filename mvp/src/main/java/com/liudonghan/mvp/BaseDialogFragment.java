@@ -45,7 +45,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        dialog = new Dialog(Objects.requireNonNull(getActivity()), 0 == getDialogStyle() ? R.style.Base_Dialog : getDialogStyle());
+        dialog = new Dialog(requireActivity(), 0 == getDialogStyle() ? R.style.Base_Dialog : getDialogStyle());
         dialog.setCancelable(isCancelable);
         dialog.setCanceledOnTouchOutside(isCanceledOnTouchOutside);
         dialog.setOnKeyListener(this);
@@ -57,7 +57,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourcesId(), container, false);
         bind = ButterKnife.bind(this, view);
-        initData();
+        initData(view);
         initListener();
         return view;
     }
@@ -94,7 +94,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
             if (0 != getWindowAnimations()) {
                 window.setWindowAnimations(getWindowAnimations());
             }
-            WindowManager windowManager = Objects.requireNonNull(getActivity()).getWindowManager();
+            WindowManager windowManager = requireActivity().getWindowManager();
             Display display = windowManager.getDefaultDisplay();
             WindowManager.LayoutParams params = window.getAttributes();
             params.width = (int) (display.getWidth());
@@ -148,8 +148,10 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
 
     /**
      * 初始化数据
+     *
+     * @param view view引用
      */
-    protected abstract void initData();
+    protected abstract void initData(View view);
 
     /**
      * 初始化监听
@@ -232,7 +234,6 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
         this.isCanceledOnTouchOutside = isCanceledOnTouchOutside;
         return this;
     }
-
 
 
     /**

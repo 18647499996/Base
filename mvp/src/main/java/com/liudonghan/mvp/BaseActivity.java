@@ -10,11 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.gyf.immersionbar.ImmersionBar;
-import com.liudonghan.utils.ActivityManagerUtils;
-import com.liudonghan.utils.SnackbarUtils;
-import com.liudonghan.view.loading.LoadingDialogView;
-import com.liudonghan.view.title.TitleBuilder;
-import com.nispok.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -52,9 +47,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
             // 设置监听事件
             addListener();
             // Activity管理器
-            ActivityManagerUtils.getActivityManager().addActivity(this);
+            BaseActivityManager.getInstance().addActivity(this);
         } catch (Exception e) {
-            SnackbarUtils.getInstance().show(this, "Abort,Retry, Ignore,fail！", R.drawable.corners_bg_bar_error, 15, 165, Snackbar.SnackbarPosition.BOTTOM);
             e.printStackTrace();
         }
 
@@ -75,7 +69,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * @return TitleBuilder 实例
      * @throws RuntimeException 异常捕获
      */
-    protected abstract TitleBuilder initBuilderTitle() throws RuntimeException;
+    protected abstract Object initBuilderTitle() throws RuntimeException;
 
     /**
      * 初始化Presenter
@@ -165,19 +159,19 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     /**
      * 启动activity页面
      *
-     * @param context     上下文
-     * @param kClassclass 启动页面
+     * @param context 上下文
+     * @param c       启动页面
      */
-    public static void startActivity(Context context, Class<?> kClassclass) {
-        Intent intent = new Intent(context, kClassclass);
+    public static void startActivity(Context context, Class<?> c) {
+        Intent intent = new Intent(context, c);
         context.startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoadingDialogView.getInstance().destroy();
-        ActivityManagerUtils.getActivityManager().finishActivity(this);
+        BaseLoadingDialog.getInstance().destroy();
+        BaseActivityManager.getInstance().finishActivity(this);
         // 页面销毁时取消presenter绑定
         if (mPresenter != null) {
             mPresenter.onDestroy();

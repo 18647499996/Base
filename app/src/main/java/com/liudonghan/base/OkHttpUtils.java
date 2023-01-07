@@ -31,7 +31,7 @@ public class OkHttpUtils {
 
     /**
      * 获取鉴权中心配置
-     * @return
+     * @return OkHttpClient
      */
     public OkHttpClient getAuthServiceConfig() {
         return new OkHttpClient.Builder()
@@ -43,9 +43,5 @@ public class OkHttpUtils {
                 .addInterceptor(new LogInterceptor())
                 .addInterceptor(new CodeInterceptor())
                 .build();
-    }
-
-    public OkHttpClient getChatServiceConfig() {
-        return null;
     }
 }

@@ -1,6 +1,5 @@
 package com.liudonghan.mvp;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.gyf.immersionbar.ImmersionBar;
-import com.liudonghan.utils.SnackbarUtils;
+import com.liudonghan.view.snackbar.SnackBar;
+import com.liudonghan.view.snackbar.SnackBarManager;
 import com.liudonghan.view.title.TitleBuilder;
-import com.nispok.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -59,7 +58,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
             setListener();
             return pView;
         } catch (Exception e) {
-            SnackbarUtils.getInstance().show(getActivity(),"Abort,Retry, Ignore,fail！", R.drawable.corners_bg_bar_error,15,165, Snackbar.SnackbarPosition.BOTTOM);
+            SnackBarManager.getInstance().show(getActivity(),"Abort,Retry, Ignore,fail！", R.drawable.corners_bg_bar_error,15,165, SnackBar.SnackbarPosition.BOTTOM);
             e.printStackTrace();
         }
 
@@ -166,16 +165,5 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
             mPresenter.onSubscribe();
         }
         initData(savedInstanceState);
-    }
-
-    /**
-     * 获取状态栏高度
-     *
-     * @return 状态栏高度
-     */
-    public static int getStatusBarHeight() {
-        Resources resources = Resources.getSystem();
-        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-        return resources.getDimensionPixelSize(resourceId);
     }
 }

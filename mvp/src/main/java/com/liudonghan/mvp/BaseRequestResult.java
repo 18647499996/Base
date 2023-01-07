@@ -1,8 +1,8 @@
 package com.liudonghan.mvp;
 
-import android.app.Activity;
 import android.content.Context;
 
+import androidx.fragment.app.FragmentActivity;
 
 import com.liudonghan.view.loading.LoadingDialogView;
 
@@ -31,7 +31,7 @@ public abstract class BaseRequestResult<T> extends Subscriber<T> {
     public void onStart() {
         super.onStart();
         if (null != context) {
-            LoadingDialogView.getInstance().init((Activity) context, "加载中..", false);
+            BaseLoadingDialog.getInstance().init(context,"请求中..");
         }
     }
 
@@ -39,14 +39,14 @@ public abstract class BaseRequestResult<T> extends Subscriber<T> {
     public void onCompleted() {
         onCompletedListener();
         if (null != context) {
-            LoadingDialogView.getInstance().dismiss();
+            BaseLoadingDialog.getInstance().dismiss();
         }
     }
 
     @Override
     public void onError(Throwable e) {
         if (null != context) {
-            LoadingDialogView.getInstance().dismiss();
+            BaseLoadingDialog.getInstance().dismiss();
         }
         if (e instanceof BaseExceptionManager.ApiException) {
             onErrorListener((BaseExceptionManager.ApiException) e);
