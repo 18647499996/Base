@@ -10,9 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.gyf.immersionbar.ImmersionBar;
-import com.liudonghan.view.snackbar.SnackBar;
-import com.liudonghan.view.snackbar.SnackBarManager;
-import com.liudonghan.view.title.TitleBuilder;
 
 import java.util.Calendar;
 
@@ -58,7 +55,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
             setListener();
             return pView;
         } catch (Exception e) {
-            SnackBarManager.getInstance().show(getActivity(),"Abort,Retry, Ignore,fail！", R.drawable.corners_bg_bar_error,15,165, SnackBar.SnackbarPosition.BOTTOM);
             e.printStackTrace();
         }
 
@@ -79,7 +75,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
      * @return TitleBuilder 实例
      * @throws RuntimeException 异常捕获
      */
-    protected abstract TitleBuilder initBuilderTitle(View view) throws RuntimeException;
+    protected abstract Object initBuilderTitle(View view) throws RuntimeException;
 
     /**
      * 初始化Presenter

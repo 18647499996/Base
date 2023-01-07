@@ -66,6 +66,5 @@ dependencies {
     api 'me.imid.swipebacklayout.lib:library:1.1.0'
     // 沉浸式状态栏
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
-    // 常用开发自定义组件
-    api 'com.github.18647499996:Component:1.0.7'
+
 }

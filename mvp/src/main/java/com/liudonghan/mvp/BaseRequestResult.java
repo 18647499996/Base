@@ -2,10 +2,6 @@ package com.liudonghan.mvp;
 
 import android.content.Context;
 
-import androidx.fragment.app.FragmentActivity;
-
-import com.liudonghan.view.loading.LoadingDialogView;
-
 import rx.Subscriber;
 
 /**
@@ -58,7 +54,7 @@ public abstract class BaseRequestResult<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
         if (null != context) {
-            LoadingDialogView.getInstance().dismiss();
+            BaseLoadingDialog.getInstance().dismiss();
         }
         onNextListener(t);
     }
