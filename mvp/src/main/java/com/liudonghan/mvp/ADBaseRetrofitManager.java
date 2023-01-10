@@ -14,7 +14,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public class BaseRetrofitManager {
+public class ADBaseRetrofitManager {
 
     /**
      * retrofit配置
@@ -24,19 +24,19 @@ public class BaseRetrofitManager {
     private static SparseArray<Retrofit> retrofitManager = new SparseArray<>();
     private static SparseArray<Model> modelSparseArray = new SparseArray<>();
 
-    private static volatile BaseRetrofitManager instance = null;
+    private static volatile ADBaseRetrofitManager instance = null;
 
 
-    private BaseRetrofitManager() {
+    private ADBaseRetrofitManager() {
     }
 
-    public static BaseRetrofitManager getInstance() {
+    public static ADBaseRetrofitManager getInstance() {
         //single chcekout
         if (null == instance) {
-            synchronized (BaseRetrofitManager.class) {
+            synchronized (ADBaseRetrofitManager.class) {
                 // double checkout
                 if (null == instance) {
-                    instance = new BaseRetrofitManager();
+                    instance = new ADBaseRetrofitManager();
                 }
             }
         }
@@ -82,7 +82,7 @@ public class BaseRetrofitManager {
      *
      * @return okHttp
      */
-    public BaseRetrofitManager baseOkHttpClient(int baseHttpUrlType, String baseHttpUrl, OkHttpClient baseOkHttpClient) {
+    public ADBaseRetrofitManager baseOkHttpClient(int baseHttpUrlType, String baseHttpUrl, OkHttpClient baseOkHttpClient) {
         // 初始化OkHttp配置
         initRetrofit(baseHttpUrl, baseHttpUrlType, baseOkHttpClient);
         return this;
@@ -96,7 +96,7 @@ public class BaseRetrofitManager {
      * @param baseOkHttpClient OkHttp客户端
      * @return BaseRetrofitManager
      */
-    public BaseRetrofitManager addMultiOkHttpClient(String baseHttpUrl, int baseHttpUrlType, OkHttpClient baseOkHttpClient) {
+    public ADBaseRetrofitManager addMultiOkHttpClient(String baseHttpUrl, int baseHttpUrlType, OkHttpClient baseOkHttpClient) {
         Model model = modelSparseArray.get(baseHttpUrlType);
         if (null == model) {
             modelSparseArray.put(baseHttpUrlType, new Model(baseHttpUrl, baseHttpUrlType, baseOkHttpClient));

@@ -32,7 +32,7 @@ import butterknife.Unbinder;
  * @author Created by: Li_Min
  * Time:12/3/21
  */
-public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extends DialogFragment implements View.OnClickListener, DialogInterface.OnKeyListener {
+public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> extends DialogFragment implements View.OnClickListener, DialogInterface.OnKeyListener {
 
     private Unbinder bind;
     private long lastClickTime = 0;
@@ -184,7 +184,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
      * @param t 回调接口
      * @return DialogFragment
      */
-    public BaseDialogFragment<T, P> setOnDialogFragmentListener(T t) {
+    public ADBaseDialogFragment<T, P> setOnDialogFragmentListener(T t) {
         this.onDialogFragmentListener = t;
         return this;
     }
@@ -196,7 +196,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
      * @param tag     弹窗Tag
      * @return DialogFragment
      */
-    public BaseDialogFragment<T, P> showDialogFragment(FragmentManager manager, String tag) {
+    public ADBaseDialogFragment<T, P> showDialogFragment(FragmentManager manager, String tag) {
         show(manager, tag);
 
         return this;
@@ -208,7 +208,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
      * @param data 数据源
      * @return BaseDialogFragment<T, P>
      */
-    public BaseDialogFragment<T, P> setDialogFragmentData(P data) {
+    public ADBaseDialogFragment<T, P> setDialogFragmentData(P data) {
         this.data = data;
         return this;
     }
@@ -219,7 +219,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
      * @param isCanceled 是否取消
      * @return BaseDialogFragment<T, P>
      */
-    public BaseDialogFragment<T, P> setDialogCancelable(boolean isCanceled) {
+    public ADBaseDialogFragment<T, P> setDialogCancelable(boolean isCanceled) {
         this.isCancelable = isCanceled;
         return this;
     }
@@ -230,7 +230,7 @@ public abstract class BaseDialogFragment<T extends BaseDialogListener, P> extend
      * @param isCanceledOnTouchOutside 是否取消
      * @return BaseDialogFragment<T, P>
      */
-    public BaseDialogFragment<T, P> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
+    public ADBaseDialogFragment<T, P> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
         this.isCanceledOnTouchOutside = isCanceledOnTouchOutside;
         return this;
     }

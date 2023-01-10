@@ -1,8 +1,8 @@
 package com.liudonghan.base.main;
 
 
-import com.liudonghan.mvp.BasePresenter;
-import com.liudonghan.mvp.BaseView;
+import com.liudonghan.mvp.ADBasePresenter;
+import com.liudonghan.mvp.ADBaseView;
 
 /**
  * Description：
@@ -12,11 +12,11 @@ import com.liudonghan.mvp.BaseView;
  */
 public interface MainContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends ADBaseView<Presenter> {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends ADBasePresenter {
 
     }
 }

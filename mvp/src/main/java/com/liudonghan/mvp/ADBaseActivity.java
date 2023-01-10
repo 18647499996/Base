@@ -2,12 +2,10 @@ package com.liudonghan.mvp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -24,14 +22,13 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackActivity implements View.OnClickListener {
+public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBackActivity implements View.OnClickListener {
 
     public ImmersionBar immersionBar;
     private long lastClickTime = 0;
 
     protected P mPresenter;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +44,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
             // 设置监听事件
             addListener();
             // Activity管理器
-            BaseActivityManager.getInstance().addActivity(this);
+            ADBaseActivityManager.getInstance().addActivity(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,7 +127,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
      * @param reference presenter
      * @return presenter
      */
-    public static BasePresenter checkNotNull(BasePresenter reference) {
+    public static ADBasePresenter checkNotNull(ADBasePresenter reference) {
         if (reference == null) {
             throw new NullPointerException();
         } else {
@@ -170,8 +167,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends SwipeBackAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BaseLoadingDialog.getInstance().destroy();
-        BaseActivityManager.getInstance().finishActivity(this);
+        ADBaseLoadingDialog.getInstance().destroy();
+        ADBaseActivityManager.getInstance().finishActivity(this);
         // 页面销毁时取消presenter绑定
         if (mPresenter != null) {
             mPresenter.onDestroy();

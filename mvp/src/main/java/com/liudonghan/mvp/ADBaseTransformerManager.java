@@ -12,7 +12,7 @@ import rx.schedulers.Schedulers;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public class BaseTransformerManager {
+public class ADBaseTransformerManager {
 
     /**
      * RxJava线程调度器（线程切换）
@@ -20,7 +20,7 @@ public class BaseTransformerManager {
      * @param <T> 可变参数
      * @return Observable.Transformer<BaseResult < T>, T>
      */
-    public static <T> Observable.Transformer<BaseResult<T>, T> defaultSchedulers() {
+    public static <T> Observable.Transformer<ADBaseResult<T>, T> defaultSchedulers() {
         return baseResultObservable -> baseResultObservable
                 .map(new ServerResultFunc<>())
                 .onErrorResumeNext(new BaseFunction<>())
@@ -38,7 +38,7 @@ public class BaseTransformerManager {
 
         @Override
         public Observable<T> call(Throwable throwable) {
-            return Observable.error(BaseExceptionManager.getInstance().throwableUtils(throwable));
+            return Observable.error(ADBaseExceptionManager.getInstance().throwableUtils(throwable));
         }
     }
 
@@ -47,10 +47,10 @@ public class BaseTransformerManager {
      *
      * @param <T>
      */
-    private static class ServerResultFunc<T> implements Func1<BaseResult<T>, T> {
+    private static class ServerResultFunc<T> implements Func1<ADBaseResult<T>, T> {
 
         @Override
-        public T call(BaseResult<T> baseResult) {
+        public T call(ADBaseResult<T> baseResult) {
             // 判断服务器code编码负数统一处理
             if (baseResult.getCode() < 0) {
                 throw new ServerException(baseResult.getCode(), baseResult.getMsg());

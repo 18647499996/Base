@@ -6,7 +6,7 @@ package com.liudonghan.mvp;
  * @author Created by: Li_Min
  * Time:12/6/21
  */
-public interface BaseDialogListener {
+public interface ADBaseDialogListener {
 
     /**
      * 关闭弹窗

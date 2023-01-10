@@ -1,12 +1,8 @@
 package com.liudonghan.base;
 
 import android.app.Application;
-import android.graphics.drawable.AnimationDrawable;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.liudonghan.mvp.BaseLoadingDialog;
-import com.liudonghan.mvp.BaseRetrofitManager;
+import com.liudonghan.mvp.ADBaseRetrofitManager;
 
 /**
  * Description：
@@ -18,7 +14,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        BaseRetrofitManager
+        ADBaseRetrofitManager
                 .getInstance()
                 .addMultiOkHttpClient("https://loginf.lawxp.com/",1,OkHttpUtils.getInstance().getAuthServiceConfig())
                 .addMultiOkHttpClient("https://im.xinfushenghuo.cn/",2,OkHttpUtils.getInstance().getAuthServiceConfig())

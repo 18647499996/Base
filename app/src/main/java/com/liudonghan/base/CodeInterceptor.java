@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.liudonghan.mvp.BaseResult;
-import com.liudonghan.mvp.BaseTransformerManager;
+import com.liudonghan.mvp.ADBaseResult;
+import com.liudonghan.mvp.ADBaseTransformerManager;
 
 import java.io.IOException;
 
@@ -37,15 +37,15 @@ public class CodeInterceptor implements Interceptor {
             String msg;
 
             if (!TextUtils.isEmpty(bodyStr)) {
-                BaseResult baseResult = GsonUtils.fromJson(bodyStr, BaseResult.class);
+                ADBaseResult baseResult = GsonUtils.fromJson(bodyStr, ADBaseResult.class);
                 if (null == baseResult) {
                     Log.e("服务器数据：" , bodyStr);
-                    throw new BaseTransformerManager.ServerException();
+                    throw new ADBaseTransformerManager.ServerException();
                 }
                 code = baseResult.getCode();
                 msg = baseResult.getMsg();
             } else {
-                throw new BaseTransformerManager.ServerException();
+                throw new ADBaseTransformerManager.ServerException();
             }
 
             switch (code) {
@@ -58,22 +58,22 @@ public class CodeInterceptor implements Interceptor {
                 case 2:
                 case 401:
 //                    RxBus.get().post(Constant.User.TOKEN_OVERDUE);
-                    throw new BaseTransformerManager.TokenException(code, msg);
+                    throw new ADBaseTransformerManager.TokenException(code, msg);
                 case 1000:
                     // 可以通过发送RxBus通知进入登录页面
-                    throw new BaseTransformerManager.TokenException(code, msg);
+                    throw new ADBaseTransformerManager.TokenException(code, msg);
                 case 400:
                 case 190:
                 default:
-                    throw new BaseTransformerManager.ServerException(code, msg);
+                    throw new ADBaseTransformerManager.ServerException(code, msg);
             }
         } else if (401 == response.code()) {
 //            RxBus.get().post(Constant.User.TOKEN_OVERDUE);
-            throw new BaseTransformerManager.TokenException(response.code(), "用户授权失败，请重新登录");
+            throw new ADBaseTransformerManager.TokenException(response.code(), "用户授权失败，请重新登录");
         } else if (401 == response.code()) {
-            throw new BaseTransformerManager.TokenException(response.code(), "无网络连接，请检查您的网络");
+            throw new ADBaseTransformerManager.TokenException(response.code(), "无网络连接，请检查您的网络");
         } else {
-            throw new BaseTransformerManager.ServerException(response.code(), response.message());
+            throw new ADBaseTransformerManager.ServerException(response.code(), response.message());
         }
     }
 }

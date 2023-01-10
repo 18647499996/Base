@@ -16,21 +16,21 @@ import java.util.Stack;
  * @author Created by: Li_Min
  * Time:1/6/23
  */
-public class BaseActivityManager {
+public class ADBaseActivityManager {
 
     protected Stack<Activity> activityStack;
 
-    private static volatile BaseActivityManager instance = null;
+    private static volatile ADBaseActivityManager instance = null;
 
-    private BaseActivityManager(){}
+    private ADBaseActivityManager(){}
 
-    public static BaseActivityManager getInstance(){
+    public static ADBaseActivityManager getInstance(){
      //single chcekout
      if(null == instance){
-        synchronized (BaseActivityManager.class){
+        synchronized (ADBaseActivityManager.class){
             // double checkout
             if(null == instance){
-                instance = new BaseActivityManager();
+                instance = new ADBaseActivityManager();
             }
         }
      }

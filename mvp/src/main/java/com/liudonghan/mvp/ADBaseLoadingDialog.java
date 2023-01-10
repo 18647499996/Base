@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Created by: Li_Min
  * Time:1/7/23
  */
-public class BaseLoadingDialog {
+public class ADBaseLoadingDialog {
 
     private Dialog dialog;
     private View contentView;
@@ -28,19 +28,19 @@ public class BaseLoadingDialog {
     private CreateLoadingDialogData createLoadingDialogData;
 
     @SuppressLint("StaticFieldLeak")
-    private static volatile BaseLoadingDialog instance = null;
+    private static volatile ADBaseLoadingDialog instance = null;
     private int layoutId;
 
-    private BaseLoadingDialog() {
+    private ADBaseLoadingDialog() {
     }
 
-    public static BaseLoadingDialog getInstance() {
+    public static ADBaseLoadingDialog getInstance() {
         //single chcekout
         if (null == instance) {
-            synchronized (BaseLoadingDialog.class) {
+            synchronized (ADBaseLoadingDialog.class) {
                 // double checkout
                 if (null == instance) {
-                    instance = new BaseLoadingDialog();
+                    instance = new ADBaseLoadingDialog();
                 }
             }
         }
@@ -102,7 +102,7 @@ public class BaseLoadingDialog {
         }
     }
 
-    public BaseLoadingDialog setContentView(int layoutId) {
+    public ADBaseLoadingDialog setContentView(int layoutId) {
         this.layoutId = layoutId;
         return this;
     }

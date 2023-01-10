@@ -21,7 +21,7 @@ import butterknife.Unbinder;
  *
  * @author liudonghan 2015-11-29
  */
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements OnClickListener {
+public abstract class ADBaseFragment<P extends ADBasePresenter> extends Fragment implements OnClickListener {
     private Unbinder unbinder;
     private View view;
     private long lastClickTime;
@@ -139,7 +139,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         }
     }
 
-    public static BasePresenter checkNotNull(BasePresenter reference) {
+    public static ADBasePresenter checkNotNull(ADBasePresenter reference) {
         if (reference == null) {
             throw new NullPointerException();
         } else {

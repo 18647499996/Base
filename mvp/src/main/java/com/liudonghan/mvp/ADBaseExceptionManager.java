@@ -21,19 +21,19 @@ import javax.net.ssl.SSLHandshakeException;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public class BaseExceptionManager {
+public class ADBaseExceptionManager {
 
-    private static volatile BaseExceptionManager instance = null;
+    private static volatile ADBaseExceptionManager instance = null;
 
-    private BaseExceptionManager(){}
+    private ADBaseExceptionManager(){}
 
-    public static BaseExceptionManager getInstance(){
+    public static ADBaseExceptionManager getInstance(){
      //single chcekout
      if(null == instance){
-        synchronized (BaseExceptionManager.class){
+        synchronized (ADBaseExceptionManager.class){
             // double checkout
             if(null == instance){
-                instance = new BaseExceptionManager();
+                instance = new ADBaseExceptionManager();
             }
         }
      }
@@ -52,15 +52,15 @@ public class BaseExceptionManager {
             apiException.setErrorMessage(Error.STR_HTTP_ERROR);
             Log.e(this.getClass().getName(), "网络异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
-        } else if (throwable instanceof BaseTransformerManager.ServerException) {
-            BaseTransformerManager.ServerException resultException = (BaseTransformerManager.ServerException) throwable;
+        } else if (throwable instanceof ADBaseTransformerManager.ServerException) {
+            ADBaseTransformerManager.ServerException resultException = (ADBaseTransformerManager.ServerException) throwable;
             apiException = new ApiException(resultException, resultException.getCode());
             apiException.setErrorMessage(null == resultException.getMsg()? Error.STR_PARSE_ERROR : resultException.getMsg());
             Log.d(this.getClass().getName(), "服务器异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
 //            LogUtils.e(this.getClass().getName(), "服务器异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
-        } else if (throwable instanceof BaseTransformerManager.TokenException){
-            BaseTransformerManager.TokenException tokenException = (BaseTransformerManager.TokenException) throwable;
+        } else if (throwable instanceof ADBaseTransformerManager.TokenException){
+            ADBaseTransformerManager.TokenException tokenException = (ADBaseTransformerManager.TokenException) throwable;
             apiException = new ApiException(tokenException,tokenException.getCode());
             apiException.setErrorMessage(tokenException.getMsg());
             Log.e(this.getClass().getName(), "Token异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());

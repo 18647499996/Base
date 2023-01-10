@@ -1,5 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.liudonghan.mvp">
+<manifest package="com.liudonghan.mvp">
 
-    /
 </manifest>

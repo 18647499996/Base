@@ -14,13 +14,13 @@ import java.util.List;
  * @author Created by: Li_Min
  * Time:2018/9/7
  */
-public class BasePageAdapter extends FragmentPagerAdapter {
+public class ADBasePageAdapter extends FragmentPagerAdapter {
 
     List<Fragment> mList;
     Context context;
 
 
-    public BasePageAdapter(FragmentManager fm, List<Fragment> mList , Context context) {
+    public ADBasePageAdapter(FragmentManager fm, List<Fragment> mList , Context context) {
         super(fm);
         this.mList = mList;
         this.context = context;

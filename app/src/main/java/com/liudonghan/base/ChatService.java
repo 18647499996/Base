@@ -1,6 +1,6 @@
 package com.liudonghan.base;
 
-import com.liudonghan.mvp.BaseResult;
+import com.liudonghan.mvp.ADBaseResult;
 
 import retrofit2.http.POST;
 import rx.Observable;
@@ -18,5 +18,5 @@ public interface ChatService {
      * @return Observable<BaseResult < UserModel>>
      */
     @POST("j_user/getUserInfo?")
-    Observable<BaseResult<UserModel>> getUserInfo();
+    Observable<ADBaseResult<UserModel>> getUserInfo();
 }

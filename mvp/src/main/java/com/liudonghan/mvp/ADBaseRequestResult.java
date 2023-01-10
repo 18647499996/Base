@@ -10,16 +10,16 @@ import rx.Subscriber;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public abstract class BaseRequestResult<T> extends Subscriber<T> {
+public abstract class ADBaseRequestResult<T> extends Subscriber<T> {
 
     private static final int ERROR = 10000;
     private Context context;
 
-    protected BaseRequestResult() {
+    protected ADBaseRequestResult() {
 
     }
 
-    protected BaseRequestResult(Context context) {
+    protected ADBaseRequestResult(Context context) {
         this.context = context;
     }
 
@@ -27,7 +27,7 @@ public abstract class BaseRequestResult<T> extends Subscriber<T> {
     public void onStart() {
         super.onStart();
         if (null != context) {
-            BaseLoadingDialog.getInstance().init(context,"请求中..");
+            ADBaseLoadingDialog.getInstance().init(context,"请求中..");
         }
     }
 
@@ -35,26 +35,26 @@ public abstract class BaseRequestResult<T> extends Subscriber<T> {
     public void onCompleted() {
         onCompletedListener();
         if (null != context) {
-            BaseLoadingDialog.getInstance().dismiss();
+            ADBaseLoadingDialog.getInstance().dismiss();
         }
     }
 
     @Override
     public void onError(Throwable e) {
         if (null != context) {
-            BaseLoadingDialog.getInstance().dismiss();
+            ADBaseLoadingDialog.getInstance().dismiss();
         }
-        if (e instanceof BaseExceptionManager.ApiException) {
-            onErrorListener((BaseExceptionManager.ApiException) e);
+        if (e instanceof ADBaseExceptionManager.ApiException) {
+            onErrorListener((ADBaseExceptionManager.ApiException) e);
         } else {
-            onErrorListener(new BaseExceptionManager.ApiException(e, ERROR, "未知错误"));
+            onErrorListener(new ADBaseExceptionManager.ApiException(e, ERROR, "未知错误"));
         }
     }
 
     @Override
     public void onNext(T t) {
         if (null != context) {
-            BaseLoadingDialog.getInstance().dismiss();
+            ADBaseLoadingDialog.getInstance().dismiss();
         }
         onNextListener(t);
     }
@@ -70,7 +70,7 @@ public abstract class BaseRequestResult<T> extends Subscriber<T> {
      *
      * @param e 异常信息
      */
-    protected abstract void onErrorListener(BaseExceptionManager.ApiException e);
+    protected abstract void onErrorListener(ADBaseExceptionManager.ApiException e);
 
     /**
      * 请求成功回调

@@ -1,7 +1,7 @@
 package com.liudonghan.base.main;
 
 
-import com.liudonghan.mvp.BaseSubscription;
+import com.liudonghan.mvp.ADBaseSubscription;
 
 /**
  * Description：
@@ -9,7 +9,7 @@ import com.liudonghan.mvp.BaseSubscription;
  * @author Created by: Li_Min
  * Time:
  */
-public class MainPresenter extends BaseSubscription<MainContract.View> implements MainContract.Presenter {
+public class MainPresenter extends ADBaseSubscription<MainContract.View> implements MainContract.Presenter {
 
 
     MainPresenter(MainContract.View view) {

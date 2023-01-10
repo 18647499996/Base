@@ -1,6 +1,6 @@
 package com.liudonghan.base;
 
-import com.liudonghan.mvp.BaseResult;
+import com.liudonghan.mvp.ADBaseResult;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -17,5 +17,5 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("F_UserInfo/GetUserInfoByToken?")
-    Observable<BaseResult<UserModel>> getUserInfo(@Field("token") String token);
+    Observable<ADBaseResult<UserModel>> getUserInfo(@Field("token") String token);
 }

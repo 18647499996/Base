@@ -22,7 +22,7 @@ package com.liudonghan.mvp;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public interface BasePresenter {
+public interface ADBasePresenter {
 
     /**
      * 初始化订阅数据

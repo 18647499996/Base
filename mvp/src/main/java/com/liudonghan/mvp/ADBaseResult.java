@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public class BaseResult<T> implements Serializable {
+public class ADBaseResult<T> implements Serializable {
     @SerializedName(value = "code", alternate = {"status", "httpCode", "errorCode","error_code"})
     private int code;
     @SerializedName(value = "msg", alternate = {"message", "errorMsg"})

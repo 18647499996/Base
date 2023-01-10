@@ -6,7 +6,7 @@ package com.liudonghan.mvp;
  * @author Created by: Li_Min
  * Time:2018/8/2
  */
-public interface BaseView<T> {
+public interface ADBaseView<T> {
     /**
      * 设置View视图层控件
      * @param presenter 泛型类

@@ -11,7 +11,7 @@ import rx.subscriptions.CompositeSubscription;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public abstract class BaseSubscription<T extends BaseView> implements BasePresenter {
+public abstract class ADBaseSubscription<T extends ADBaseView> implements ADBasePresenter {
 
     protected CompositeSubscription subscriptions = new CompositeSubscription();
 
@@ -19,7 +19,7 @@ public abstract class BaseSubscription<T extends BaseView> implements BasePresen
 
     protected T view;
 
-    protected BaseSubscription(T view) {
+    protected ADBaseSubscription(T view) {
         this.view = view;
         this.view.setPresenter(this);
     }
@@ -49,7 +49,7 @@ public abstract class BaseSubscription<T extends BaseView> implements BasePresen
      * @param context 上下文
      * @return BaseSubscription
      */
-    public BaseSubscription builder(Context context) {
+    public ADBaseSubscription builder(Context context) {
         this.context = context;
         return this;
     }
