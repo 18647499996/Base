@@ -30,7 +30,8 @@ public class OkHttpUtils {
     }
 
     /**
-     * 获取鉴权中心配置
+     * 获取OkHttp配置
+     *
      * @return OkHttpClient
      */
     public OkHttpClient getAuthServiceConfig() {

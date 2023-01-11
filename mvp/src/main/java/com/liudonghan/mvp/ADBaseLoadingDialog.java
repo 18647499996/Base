@@ -64,7 +64,7 @@ public class ADBaseLoadingDialog {
     }
 
     private void initView() {
-        contentView = View.inflate(activity, 0 == layoutId ? R.layout.dialog_loading : layoutId, null);
+        contentView = View.inflate(activity, 0 == layoutId ? R.layout.ad_dialog_loading : layoutId, null);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ADBaseLoadingDialog {
         if (0 == layoutId) {
             TextView textView = contentView.findViewById(R.id.tipTextView);
             ImageView spaceshipImage = contentView.findViewById(R.id.img);
-            spaceshipImage.setBackgroundResource(R.drawable.loading_progress);
+            spaceshipImage.setBackgroundResource(R.drawable.ad_loading_progress);
             AnimationDrawable animationDrawable = (AnimationDrawable) spaceshipImage.getBackground();
             animationDrawable.start();
             textView.setText(tip);

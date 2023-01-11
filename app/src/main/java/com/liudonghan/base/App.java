@@ -21,7 +21,7 @@ public class App extends Application {
                 .initMultiRetrofit();
 //        BaseLoadingDialog
 //                .getInstance()
-//                .setContentView(R.layout.dialog_loading)
+//                .setContentView(R.layout.ad_dialog_loading)
 //                .setCreateLoadingDialogData((view, tip) -> {
 //                    TextView textView = view.findViewById(R.id.tipTextView);
 //                    ImageView spaceshipImage = view.findViewById(R.id.img);

@@ -17,9 +17,20 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ADBaseRetrofitManager {
 
     /**
+     * 域名配置
+     */
+    private String baseHttpUrl;
+
+    /**
+     * OkHttp配置
+     */
+    private OkHttpClient baseOkHttpClient;
+
+    /**
      * retrofit配置
      */
     private Retrofit mRetrofit;
+
 
     private static SparseArray<Retrofit> retrofitManager = new SparseArray<>();
     private static SparseArray<Model> modelSparseArray = new SparseArray<>();
@@ -77,16 +88,6 @@ public class ADBaseRetrofitManager {
 
     }
 
-    /**
-     * 初始化okHttp配置（ 单服务器）
-     *
-     * @return okHttp
-     */
-    public ADBaseRetrofitManager baseOkHttpClient(int baseHttpUrlType, String baseHttpUrl, OkHttpClient baseOkHttpClient) {
-        // 初始化OkHttp配置
-        initRetrofit(baseHttpUrl, baseHttpUrlType, baseOkHttpClient);
-        return this;
-    }
 
     /**
      * 添加客户端（ 群组模式 ）
@@ -104,6 +105,7 @@ public class ADBaseRetrofitManager {
         return this;
     }
 
+
     /**
      * 切换服务
      *
@@ -115,6 +117,58 @@ public class ADBaseRetrofitManager {
         Model model = modelSparseArray.get(baseHttpUrlType);
         initRetrofit(model.getBaseHttpUrl(), model.getBaseHttpUrlType(), model.getOkHttpClient());
         return mRetrofit.create(tClass);
+    }
+
+    /**
+     * 初始化okHttp配置（ 单服务器）
+     *
+     * @return okHttp
+     */
+    public ADBaseRetrofitManager baseOkHttpClient(OkHttpClient baseOkHttpClient) {
+        this.baseOkHttpClient = baseOkHttpClient;
+        return this;
+    }
+
+    /**
+     * 配置服务器域名地址
+     *
+     * @param baseHttpUrl 域名地址
+     * @return ADBaseRetrofitManager
+     */
+    public ADBaseRetrofitManager baseHttpUrl(String baseHttpUrl) {
+        this.baseHttpUrl = baseHttpUrl;
+        return this;
+    }
+
+    public Retrofit baseRetrofitManager() {
+        // 初始化OkHttp配置
+        return new Retrofit.Builder()
+                .baseUrl(baseHttpUrl)
+                .client(baseOkHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+    }
+
+    /**
+     *
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public <T> T baseRetrofitManager(Class<T> tClass) {
+        // 初始化OkHttp配置
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseHttpUrl)
+                .client(baseOkHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return (T) retrofit.create(tClass);
+
     }
 
     public static class Model {
