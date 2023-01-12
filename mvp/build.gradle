@@ -9,8 +9,8 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.18647499996'//插件id，格式：com.github.18647499996
                 artifactId = 'base'//插件名称
-                version = '1.0'//版本号
-                //引用使用格式：implementation 'com.github.18647499996:component:1.0'
+                version = VERSION_CODE.toString()//版本号
+                //引用使用格式：implementation 'com.github.18647499996:base:1.0'
             }
         }
     }
@@ -22,8 +22,8 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        versionCode VERSION_CODE.toInteger()
+        versionName VERSION_NAME.toString()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
