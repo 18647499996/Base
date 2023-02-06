@@ -56,8 +56,7 @@ public class ADBaseExceptionManager {
             ADBaseTransformerManager.ServerException resultException = (ADBaseTransformerManager.ServerException) throwable;
             apiException = new ApiException(resultException, resultException.getCode());
             apiException.setErrorMessage(null == resultException.getMsg()? Error.STR_PARSE_ERROR : resultException.getMsg());
-            Log.d(this.getClass().getName(), "服务器异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
-//            LogUtils.e(this.getClass().getName(), "服务器异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.e(this.getClass().getName(), "服务器异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
         } else if (throwable instanceof ADBaseTransformerManager.TokenException){
             ADBaseTransformerManager.TokenException tokenException = (ADBaseTransformerManager.TokenException) throwable;
@@ -73,9 +72,7 @@ public class ADBaseExceptionManager {
             Log.e(this.getClass().getName(), "解析异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
             //环信无网络判断
-        } else if (throwable instanceof SocketException ||
-                throwable instanceof UnknownHostException ||
-                throwable instanceof ApiException) {
+        } else if (throwable instanceof SocketException || throwable instanceof UnknownHostException || throwable instanceof ApiException) {
             apiException = new ApiException(throwable, Error.NO_NET_ERROR);
             apiException.setErrorMessage(Error.STR_NO_NET_ERROR);
             Log.e(this.getClass().getName(), "连接异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
