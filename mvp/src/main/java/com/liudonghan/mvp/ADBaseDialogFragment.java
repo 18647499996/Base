@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,7 @@ import butterknife.Unbinder;
  * @author Created by: Li_Min
  * Time:12/3/21
  */
-public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> extends DialogFragment implements View.OnClickListener, DialogInterface.OnKeyListener {
+public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> extends DialogFragment implements View.OnClickListener {
 
     private Unbinder bind;
     private long lastClickTime = 0;
@@ -46,9 +45,6 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         dialog = new Dialog(requireActivity(), 0 == getDialogStyle() ? R.style.Base_Dialog : getDialogStyle());
-        dialog.setCancelable(isCancelable);
-        dialog.setCanceledOnTouchOutside(isCanceledOnTouchOutside);
-        dialog.setOnKeyListener(this);
         return dialog;
     }
 
@@ -57,6 +53,8 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourcesId(), container, false);
         bind = ButterKnife.bind(this, view);
+        dialog.setCancelable(isCancelable);
+        dialog.setCanceledOnTouchOutside(isCanceledOnTouchOutside);
         initData(view);
         initListener();
         return view;
@@ -243,15 +241,6 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
         if (null != getDialog()) {
             dismiss();
         }
-    }
-
-    @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            return true;
-        }
-        return false;
-
     }
 
     /**
