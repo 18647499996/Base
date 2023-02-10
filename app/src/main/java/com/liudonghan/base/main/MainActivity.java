@@ -122,15 +122,14 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
             public void onClick(View view) {
                 new DialogBuilder(MainActivity.this)
                         .setData("个哈哈哈哈哈")
+                        .setDialogCancelable(false)
+                        .setDialogCanceledOnTouchOutside(false)
                         .setOnDialogListener(new ADBaseDialogListener() {
                             @Override
                             public void onDismiss() {
 
                             }
-                        })
-                        .setDialogCancelable(true)
-                        .setDialogCanceledOnTouchOutside(true)
-                        .showDialogFragment();
+                        }).showDialogFragment();
             }
         });
     }

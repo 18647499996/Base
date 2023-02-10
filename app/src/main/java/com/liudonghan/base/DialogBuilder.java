@@ -2,14 +2,12 @@ package com.liudonghan.base;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.liudonghan.mvp.ADBaseDialog;
 import com.liudonghan.mvp.ADBaseDialogListener;
+import com.liudonghan.view.city.ADCityView;
 
 import butterknife.BindView;
 
@@ -21,10 +19,8 @@ import butterknife.BindView;
  */
 public class DialogBuilder extends ADBaseDialog<ADBaseDialogListener, String> {
 
-    @BindView(R.id.img)
-    ImageView img;
-    @BindView(R.id.tipTextView)
-    TextView tipTextView;
+    @BindView(R.id.dialog_builder)
+    ADCityView dialogBuilder;
 
     public DialogBuilder(@NonNull Context context) {
         super(context);
@@ -32,7 +28,7 @@ public class DialogBuilder extends ADBaseDialog<ADBaseDialogListener, String> {
 
     @Override
     public int getLayoutResourcesId() {
-        return R.layout.ad_dialog_loading;
+        return R.layout.dialog_builder;
     }
 
     @Override
@@ -47,7 +43,7 @@ public class DialogBuilder extends ADBaseDialog<ADBaseDialogListener, String> {
 
     @Override
     protected void initData(View view) {
-        tipTextView.setText(data);
+        dialogBuilder.getAdCitySelector().setTabAmount(4);
     }
 
     @Override

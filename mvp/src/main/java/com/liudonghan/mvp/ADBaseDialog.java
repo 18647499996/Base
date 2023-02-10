@@ -30,7 +30,6 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
 
     public Context context;
     public Unbinder bind;
-    public boolean isCancelable, isCanceledOnTouchOutside;
     public T data;
     public L listener;
     private long lastClickTime = 0;
@@ -41,7 +40,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
 
     protected abstract int getWindowAnimations();
 
-    protected abstract void initData(View view);
+    protected abstract void initData();
 
     protected abstract void initListener();
 
@@ -60,15 +59,11 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View inflate = View.inflate(context, getLayoutResourcesId(), null);
-        setContentView(inflate);
+        setContentView(getLayoutResourcesId());
         bind = ButterKnife.bind(this);
-        setCancelable(isCancelable);
-        setCanceledOnTouchOutside(isCanceledOnTouchOutside);
-        initData(inflate);
+        initData();
         initListener();
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("RtlHardcoded")
@@ -144,7 +139,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
      * @return ADBaseDialog
      */
     public ADBaseDialog<L, T> setDialogCancelable(boolean isCanceled) {
-        this.isCancelable = isCanceled;
+        setCancelable(isCanceled);
         return this;
     }
 
@@ -155,7 +150,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
      * @return ADBaseDialog
      */
     public ADBaseDialog<L, T> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
-        this.isCanceledOnTouchOutside = isCanceledOnTouchOutside;
+        setCanceledOnTouchOutside(isCanceledOnTouchOutside);
         return this;
     }
 
