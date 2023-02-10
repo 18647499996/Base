@@ -42,7 +42,7 @@ public class DialogBuilder extends ADBaseDialog<ADBaseDialogListener, String> {
     }
 
     @Override
-    protected void initData(View view) {
+    protected void initData() {
         dialogBuilder.getAdCitySelector().setTabAmount(4);
     }
 
