@@ -12,6 +12,8 @@ import android.view.Window;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import java.util.Calendar;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -21,13 +23,14 @@ import butterknife.Unbinder;
  * @author Created by: Li_Min
  * Time:2/10/23
  */
-public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Dialog {
+public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Dialog implements View.OnClickListener {
 
     public Context context;
     public Unbinder bind;
     public boolean isCancelable, isCanceledOnTouchOutside;
     public T data;
     public L listener;
+    private long lastClickTime = 0;
 
     protected abstract int getLayoutResourcesId();
 
@@ -38,6 +41,8 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
     protected abstract void initData(View view);
 
     protected abstract void initListener();
+
+    protected abstract void onClickDoubleListener(View v);
 
     public ADBaseDialog(@NonNull Context context) {
         super(context, R.style.Base_Dialog);
@@ -104,6 +109,17 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
             bind.unbind();
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        // 防止快速点击（1秒响应一次）
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        if (currentTime - lastClickTime > 1000) {
+            lastClickTime = currentTime;
+            onClickDoubleListener(v);
+        }
+    }
+
 
     @Override
     public void dismiss() {
