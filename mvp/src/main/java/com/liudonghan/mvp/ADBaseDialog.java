@@ -1,13 +1,16 @@
 package com.liudonghan.mvp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -99,6 +102,11 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
             if (0 != getWindowAnimations()) {
                 window.setWindowAnimations(getWindowAnimations());
             }
+            WindowManager windowManager = ((Activity) context).getWindowManager();
+            Display display = windowManager.getDefaultDisplay();
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.width = (int) (display.getWidth());
+            window.setAttributes(params);
         }
     }
 
