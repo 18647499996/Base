@@ -4,18 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.liudonghan.base.ChatService;
+import com.liudonghan.base.DialogBuilder;
 import com.liudonghan.base.OkHttpUtils;
 import com.liudonghan.base.R;
 import com.liudonghan.base.UserModel;
 import com.liudonghan.base.UserService;
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.mvp.ADBaseDialogListener;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
 import com.liudonghan.mvp.ADBaseRequestResult;
 import com.liudonghan.mvp.ADBaseRetrofitManager;
 import com.liudonghan.mvp.ADBaseTransformerManager;
-import com.liudonghan.view.snackbar.SnackBarManager;
-import com.liudonghan.view.title.TitleBuilder;
+import com.liudonghan.view.snackbar.ADSnackBarManager;
+import com.liudonghan.view.title.ADTitleBuilder;
 
 /**
  * Description：
@@ -31,8 +33,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     }
 
     @Override
-    protected TitleBuilder initBuilderTitle() throws RuntimeException {
-        return new TitleBuilder(this).setMiddleTitleBgRes("首页").setLeftImageRes(R.drawable.nav_fanhui_hei).setLeftRelativeLayoutListener(this);
+    protected ADTitleBuilder initBuilderTitle() throws RuntimeException {
+        return new ADTitleBuilder(this).setMiddleTitleBgRes("首页").setLeftImageRes(R.drawable.ad_back_black).setLeftRelativeLayoutListener(this);
     }
 
     @Override
@@ -114,6 +116,23 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
                     }
                 });
+
+        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DialogBuilder(MainActivity.this)
+                        .setData("个哈哈哈哈哈")
+                        .setOnDialogListener(new ADBaseDialogListener() {
+                            @Override
+                            public void onDismiss() {
+
+                            }
+                        })
+                        .setDialogCancelable(true)
+                        .setDialogCanceledOnTouchOutside(true)
+                        .showDialogFragment();
+            }
+        });
     }
 
     @Override
@@ -138,7 +157,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     public void showErrorMessage(String msg) {
-        SnackBarManager.getInstance().showError(this, msg);
+        ADSnackBarManager.getInstance().showError(this, msg);
     }
 
 
