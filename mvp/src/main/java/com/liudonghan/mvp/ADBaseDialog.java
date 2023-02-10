@@ -29,7 +29,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
     public T data;
     public L listener;
 
-    public abstract int getLayoutResourcesId();
+    protected abstract int getLayoutResourcesId();
 
     protected abstract GravityDirection getGravityDirection();
 
