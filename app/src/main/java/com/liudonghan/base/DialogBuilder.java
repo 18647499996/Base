@@ -54,4 +54,9 @@ public class DialogBuilder extends ADBaseDialog<ADBaseDialogListener, String> {
     protected void initListener() {
 
     }
+
+    @Override
+    protected void onClickDoubleListener(View v) {
+
+    }
 }
