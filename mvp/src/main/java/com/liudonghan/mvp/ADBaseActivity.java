@@ -164,6 +164,15 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBac
         context.startActivity(intent);
     }
 
+    /**
+     * 获取Presenter引用
+     *
+     * @return P
+     */
+    public P getPresenter() {
+        return mPresenter;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -175,4 +184,6 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBac
         }
         onDestroys();
     }
+
+
 }

@@ -21,13 +21,15 @@ import butterknife.Unbinder;
  *
  * @author liudonghan 2015-11-29
  */
-public abstract class ADBaseFragment<P extends ADBasePresenter> extends Fragment implements OnClickListener {
+public abstract class ADBaseFragment<P extends ADBasePresenter, A> extends Fragment implements OnClickListener {
     private Unbinder unbinder;
     private View view;
     private long lastClickTime;
     protected ImmersionBar immersionBar;
 
     protected P mPresenter;
+
+    protected A currentActivity;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,5 +163,9 @@ public abstract class ADBaseFragment<P extends ADBasePresenter> extends Fragment
             mPresenter.onSubscribe();
         }
         initData(savedInstanceState);
+    }
+
+    public A getCurrentActivity() {
+        return currentActivity = (A) getActivity();
     }
 }

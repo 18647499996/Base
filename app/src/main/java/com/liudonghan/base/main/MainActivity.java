@@ -1,7 +1,10 @@
 package com.liudonghan.base.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import androidx.fragment.app.FragmentTransaction;
 
 import com.liudonghan.base.ChatService;
 import com.liudonghan.base.DialogBuilder;
@@ -9,6 +12,7 @@ import com.liudonghan.base.OkHttpUtils;
 import com.liudonghan.base.R;
 import com.liudonghan.base.UserModel;
 import com.liudonghan.base.UserService;
+import com.liudonghan.base.fragment.DemoFragment;
 import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseDialogListener;
 import com.liudonghan.mvp.ADBaseExceptionManager;
@@ -27,6 +31,8 @@ import com.liudonghan.view.title.ADTitleBuilder;
  */
 public class MainActivity extends ADBaseActivity<MainPresenter> implements MainContract.View {
 
+    public String main = "currentActivity";
+
     @Override
     protected int getLayout() throws RuntimeException {
         return R.layout.activity_main;
@@ -44,6 +50,9 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frame,new DemoFragment(),"Demo");
+        fragmentTransaction.commit();
         findViewById(R.id.btn1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,17 +125,18 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
                     }
                 });
-
         findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new DialogBuilder(MainActivity.this)
-                        .setData("个哈哈哈哈哈")
+                        .setData("")
                         .setDialogCancelable(false)
                         .setDialogCanceledOnTouchOutside(false)
                         .setOnDialogListener(new ADBaseDialogListener() {
                             @Override
                             public void onDismiss() {
+
+//                                DemoFragment demoFragment = (DemoFragment) getSupportFragmentManager().findFragmentById(R.id.frame);
 
                             }
                         }).showDialogFragment();
