@@ -44,7 +44,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        dialog = new Dialog(requireActivity(), 0 == getDialogStyle() ? R.style.Base_Dialog : getDialogStyle());
+        dialog = new Dialog(requireActivity(), 0 == getDialogStyle() ? R.style.AD_Base_Dialog : getDialogStyle());
         return dialog;
     }
 

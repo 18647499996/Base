@@ -47,7 +47,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
     protected abstract void onClickDoubleListener(View v);
 
     public ADBaseDialog(@NonNull Context context) {
-        super(context, R.style.Base_Dialog);
+        super(context, R.style.AD_Base_Dialog);
         this.context = context;
     }
 

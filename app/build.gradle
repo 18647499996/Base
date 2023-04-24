@@ -42,7 +42,7 @@ dependencies {
     // google
     implementation 'com.google.code.gson:gson:2.10'
 
-    implementation 'com.github.18647499996:Component:2.2.3'
+    implementation 'com.github.18647499996:Component:2.6.0'
     implementation 'com.github.18647499996:Utils:1.0.4'
 
     // 初始化控件插件

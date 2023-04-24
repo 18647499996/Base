@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--dialog弹窗-->
-    <style name="Base_Dialog" parent="@android:style/Theme.Dialog">
+    <!-- dialog弹窗 -->
+    <style name="AD_Base_Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -12,4 +12,17 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
+
+    <!-- PopupWindow弹窗( 底部 )-->
+    <style name="AD_PopupWindow_Style_Bottom">
+        <item name="android:windowEnterAnimation">@anim/ad_popup_window_bottom_enter</item>
+        <item name="android:windowExitAnimation">@anim/ad_popup_window_bottom_exit</item>
+    </style>
+
+    <!-- PopupWindow弹窗( 顶部 )-->
+    <style name="AD_PopupWindow_Style_Top">
+        <item name="android:windowEnterAnimation">@anim/ad_popup_window_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/ad_popup_window_top_exit</item>
+    </style>
+
 </resources>

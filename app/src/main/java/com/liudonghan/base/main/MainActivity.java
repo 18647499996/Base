@@ -1,8 +1,8 @@
 package com.liudonghan.base.main;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,6 +17,7 @@ import com.liudonghan.mvp.ADBaseActivity;
 import com.liudonghan.mvp.ADBaseDialogListener;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
+import com.liudonghan.mvp.ADBasePopupWindow;
 import com.liudonghan.mvp.ADBaseRequestResult;
 import com.liudonghan.mvp.ADBaseRetrofitManager;
 import com.liudonghan.mvp.ADBaseTransformerManager;
@@ -32,6 +33,7 @@ import com.liudonghan.view.title.ADTitleBuilder;
 public class MainActivity extends ADBaseActivity<MainPresenter> implements MainContract.View {
 
     public String main = "currentActivity";
+    private Button button;
 
     @Override
     protected int getLayout() throws RuntimeException {
@@ -50,8 +52,9 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        button = (Button) findViewById(R.id.btn3);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame,new DemoFragment(),"Demo");
+        fragmentTransaction.add(R.id.frame, new DemoFragment(), "Demo");
         fragmentTransaction.commit();
         findViewById(R.id.btn1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +145,19 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                         }).showDialogFragment();
             }
         });
+        button.setOnClickListener(view -> {
+            UserModel userModel = new UserModel();
+            userModel.setNickname("我是popupWindow");
+            new ADBasePopupWindow<UserModel>(MainActivity.this, button)
+                    .setTouchModal(false)
+                    .setWidthHeight(0,0)
+                    .setContentView(R.layout.popup_main)
+                    .setData(userModel)
+                    .findViewById((helper, userModel1) -> helper.setText(R.id.popup_tv_title, userModel1.getNickname()))
+                    .builder()
+                    .show();
+        });
+
     }
 
     @Override

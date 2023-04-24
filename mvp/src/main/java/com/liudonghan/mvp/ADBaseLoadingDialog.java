@@ -71,7 +71,7 @@ public class ADBaseLoadingDialog {
      * 设置dialog属性
      */
     private void initDialog() {
-        dialog = new Dialog(activity, R.style.Base_Dialog);
+        dialog = new Dialog(activity, R.style.AD_Base_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(contentView);
         // 设置对话框的大小
