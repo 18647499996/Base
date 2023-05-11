@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -22,14 +23,12 @@ import java.util.Objects;
  */
 public class ADBaseLoadingDialog {
 
-    private Dialog dialog;
+    private Dialog popupWindow;
     private View contentView;
     private Activity activity;
-    private CreateLoadingDialogData createLoadingDialogData;
 
     @SuppressLint("StaticFieldLeak")
     private static volatile ADBaseLoadingDialog instance = null;
-    private int layoutId;
 
     private ADBaseLoadingDialog() {
     }
@@ -50,81 +49,62 @@ public class ADBaseLoadingDialog {
     /**
      * 创建PopupWindow
      */
-    public void init(Context context, String tip) {
-        this.activity = (Activity) context;
-        if (null != dialog) {
-            if (dialog.isShowing()) {
+    public void init(Activity activity, String tip) {
+        this.activity = activity;
+        if (null != popupWindow) {
+            if (popupWindow.isShowing()) {
                 return;
             }
         }
-        initView();
-        initData(tip);
-        initDialog();
-        show();
-    }
-
-    private void initView() {
-        contentView = View.inflate(activity, 0 == layoutId ? R.layout.ad_dialog_loading : layoutId, null);
-    }
-
-    /**
-     * 设置dialog属性
-     */
-    private void initDialog() {
-        dialog = new Dialog(activity, R.style.AD_Base_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(contentView);
+        contentView = View.inflate(activity, R.layout.ad_dialog_loading, null);
+        popupWindow = new Dialog(activity, R.style.AD_Base_Dialog);
+        // 去除标题
+        popupWindow.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 添加一个自定义布局
+        popupWindow.setContentView(contentView);
+        //isUpload为true时关闭返回按钮
+//        if (isUpload) {
+//            popupWindow.setCancelable(false);
+//            popupWindow.setCanceledOnTouchOutside(false);
+//        }
+        TextView textView = contentView.findViewById(R.id.tipTextView);
+        ImageView spaceshipImage = contentView.findViewById(R.id.img);
+        spaceshipImage.setBackgroundResource(R.drawable.ad_loading_progress);
+        AnimationDrawable animationDrawable = (AnimationDrawable) spaceshipImage.getBackground();
+        animationDrawable.start();
+        if (TextUtils.isEmpty(tip)) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setText(tip);
+            textView.setVisibility(View.VISIBLE);
+        }
         // 设置对话框的大小
         WindowManager wm = activity.getWindowManager();
-        WindowManager.LayoutParams params = Objects.requireNonNull(dialog.getWindow()).getAttributes();
+        WindowManager.LayoutParams params = Objects.requireNonNull(popupWindow.getWindow()).getAttributes();
+        // 获取屏幕宽高
         Display d = wm.getDefaultDisplay();
+        // 设置高度为屏幕的0.6
         params.width = (int) d.getWidth();
-        dialog.getWindow().setAttributes(params);
-        dialog.getWindow().setDimAmount(0f);
-        dialog.setCanceledOnTouchOutside(false);
-    }
-
-    /**
-     * 初始化数据
-     *
-     * @param tip 加载描述
-     */
-    private void initData(String tip) {
-        if (0 == layoutId) {
-            TextView textView = contentView.findViewById(R.id.tipTextView);
-            ImageView spaceshipImage = contentView.findViewById(R.id.img);
-            spaceshipImage.setBackgroundResource(R.drawable.ad_loading_progress);
-            AnimationDrawable animationDrawable = (AnimationDrawable) spaceshipImage.getBackground();
-            animationDrawable.start();
-            textView.setText(tip);
-        } else {
-            createLoadingDialogData.initData(contentView, tip);
-        }
-    }
-
-    public ADBaseLoadingDialog setContentView(int layoutId) {
-        this.layoutId = layoutId;
-        return this;
-    }
-
-    public void setCreateLoadingDialogData(CreateLoadingDialogData createLoadingDialogData) {
-        this.createLoadingDialogData = createLoadingDialogData;
+        popupWindow.getWindow().setAttributes(params);
+        popupWindow.getWindow().setDimAmount(0f);
+        popupWindow.setCanceledOnTouchOutside(false);
+        show();
     }
 
 
     private void show() {
-        if (null != dialog) {
-            if (dialog.isShowing()) {
+        if (null != popupWindow) {
+            if (popupWindow.isShowing()) {
                 return;
             }
-            dialog.show();
+            popupWindow.show();
         }
     }
 
     public void dismiss() {
         try {
-            if (null != dialog) {
-                dialog.dismiss();
+            if (null != popupWindow) {
+                popupWindow.dismiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,13 +114,13 @@ public class ADBaseLoadingDialog {
     /**
      * 销毁ac引用
      */
-    public void destroy() {
-        if (null != dialog && dialog.isShowing()) {
-            dialog.dismiss();
+    public void destory() {
+        if (null != popupWindow && popupWindow.isShowing()) {
+            popupWindow.dismiss();
         }
         activity = null;
         contentView = null;
-        dialog = null;
+        popupWindow = null;
     }
 
 

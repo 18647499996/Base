@@ -1,5 +1,6 @@
 package com.liudonghan.mvp;
 
+import android.app.Activity;
 import android.content.Context;
 
 import rx.Subscriber;
@@ -27,7 +28,7 @@ public abstract class ADBaseRequestResult<T> extends Subscriber<T> {
     public void onStart() {
         super.onStart();
         if (null != context) {
-            ADBaseLoadingDialog.getInstance().init(context,"请求中..");
+            ADBaseLoadingDialog.getInstance().init((Activity) context, "请求中..");
         }
     }
 

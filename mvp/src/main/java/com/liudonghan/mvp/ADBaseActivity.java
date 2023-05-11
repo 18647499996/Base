@@ -176,7 +176,7 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBac
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ADBaseLoadingDialog.getInstance().destroy();
+        ADBaseLoadingDialog.getInstance().destory();
         ADBaseActivityManager.getInstance().finishActivity(this);
         // 页面销毁时取消presenter绑定
         if (mPresenter != null) {
