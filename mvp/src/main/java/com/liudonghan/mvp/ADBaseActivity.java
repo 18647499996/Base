@@ -43,8 +43,6 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBac
             initDatas(savedInstanceState);
             // 设置监听事件
             addListener();
-            // Activity管理器
-            ADBaseActivityManager.getInstance().addActivity(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,7 +175,6 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBac
     protected void onDestroy() {
         super.onDestroy();
         ADBaseLoadingDialog.getInstance().destroy();
-        ADBaseActivityManager.getInstance().finishActivity(this);
         // 页面销毁时取消presenter绑定
         if (mPresenter != null) {
             mPresenter.onDestroy();
