@@ -113,11 +113,15 @@ public class ADBaseLoadingDialog {
 
 
     private void show() {
-        if (null != dialog) {
-            if (dialog.isShowing()) {
-                return;
+        if (null != activity) {
+            if (!activity.isFinishing()) {
+                if (null != dialog) {
+                    if (dialog.isShowing()) {
+                        return;
+                    }
+                    dialog.show();
+                }
             }
-            dialog.show();
         }
     }
 
@@ -150,7 +154,7 @@ public class ADBaseLoadingDialog {
          * 初始化
          *
          * @param view view引用
-         * @param tip 描述
+         * @param tip  描述
          */
         void initData(View view, String tip);
     }
