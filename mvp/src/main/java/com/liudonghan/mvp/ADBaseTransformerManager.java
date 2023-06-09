@@ -68,6 +68,9 @@ public class ADBaseTransformerManager {
 
         private int code;
         private String msg;
+        private String url;
+        private String params;
+        private String headers;
 
         public ServerException() {
 
@@ -78,6 +81,27 @@ public class ADBaseTransformerManager {
             this.msg = msg;
         }
 
+        public ServerException(int code, String msg,String url) {
+            this.code = code;
+            this.msg = msg;
+            this.url = url;
+        }
+
+        public ServerException(int code, String msg,String url,String params) {
+            this.code = code;
+            this.msg = msg;
+            this.url = url;
+            this.params = params;
+        }
+
+        public ServerException(int code, String msg,String url,String params,String headers) {
+            this.code = code;
+            this.msg = msg;
+            this.url = url;
+            this.params = params;
+            this.headers = headers;
+        }
+
         public int getCode() {
             return code;
         }
@@ -92,6 +116,30 @@ public class ADBaseTransformerManager {
 
         public void setMsg(String msg) {
             this.msg = msg;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getParams() {
+            return params;
+        }
+
+        public void setParams(String params) {
+            this.params = params;
+        }
+
+        public String getHeaders() {
+            return headers;
+        }
+
+        public void setHeaders(String headers) {
+            this.headers = headers;
         }
     }
 
@@ -102,11 +150,37 @@ public class ADBaseTransformerManager {
 
         private int code;
         private String msg;
+        private String url;
+        private String params;
+        private String headers;
 
         public TokenException(int code, String msg) {
             this.code = code;
             this.msg = msg;
         }
+
+        public TokenException(int code, String msg,String url) {
+            this.code = code;
+            this.msg = msg;
+            this.url = url;
+        }
+
+        public TokenException(int code, String msg,String url,String params) {
+            this.code = code;
+            this.msg = msg;
+            this.url = url;
+            this.params = params;
+        }
+
+        public TokenException(int code, String msg,String url,String params,String headers) {
+            this.code = code;
+            this.msg = msg;
+            this.url = url;
+            this.params = params;
+            this.headers = headers;
+        }
+
+
 
         public int getCode() {
             return code;
@@ -124,5 +198,28 @@ public class ADBaseTransformerManager {
             this.msg = msg;
         }
 
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getParams() {
+            return params;
+        }
+
+        public void setParams(String params) {
+            this.params = params;
+        }
+
+        public String getHeaders() {
+            return headers;
+        }
+
+        public void setHeaders(String headers) {
+            this.headers = headers;
+        }
     }
 }

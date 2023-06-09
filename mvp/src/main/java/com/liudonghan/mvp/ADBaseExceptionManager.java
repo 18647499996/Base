@@ -23,25 +23,29 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class ADBaseExceptionManager {
 
+    private static final String TAG = "Mac_Liu";
+
     private static volatile ADBaseExceptionManager instance = null;
 
-    private ADBaseExceptionManager(){}
+    private ADBaseExceptionManager() {
+    }
 
-    public static ADBaseExceptionManager getInstance(){
-     //single chcekout
-     if(null == instance){
-        synchronized (ADBaseExceptionManager.class){
-            // double checkout
-            if(null == instance){
-                instance = new ADBaseExceptionManager();
+    public static ADBaseExceptionManager getInstance() {
+        //single chcekout
+        if (null == instance) {
+            synchronized (ADBaseExceptionManager.class) {
+                // double checkout
+                if (null == instance) {
+                    instance = new ADBaseExceptionManager();
+                }
             }
         }
-     }
-     return instance;
+        return instance;
     }
 
     /**
      * 异常信息处理
+     *
      * @param throwable 处理的异常信息
      * @return apiException 异常信息
      */
@@ -50,47 +54,47 @@ public class ADBaseExceptionManager {
         if (throwable instanceof EOFException || throwable instanceof ConnectException || throwable instanceof SSLHandshakeException) {
             apiException = new ApiException(throwable, Error.HTTP_ERROR);
             apiException.setErrorMessage(Error.STR_HTTP_ERROR);
-            Log.e(this.getClass().getName(), "网络异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, "网络异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
         } else if (throwable instanceof ADBaseTransformerManager.ServerException) {
             ADBaseTransformerManager.ServerException resultException = (ADBaseTransformerManager.ServerException) throwable;
             apiException = new ApiException(resultException, resultException.getCode());
-            apiException.setErrorMessage(null == resultException.getMsg()? Error.STR_PARSE_ERROR : resultException.getMsg());
-            Log.e(this.getClass().getName(), "服务器异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            apiException.setErrorMessage(null == resultException.getMsg() ? Error.STR_PARSE_ERROR : resultException.getMsg());
+            Log.w(TAG, apiException.getErrorMessage() + "\n异常类型：服务器异常" + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage() + "\n异常地址：" + resultException.getUrl() + "\n异常参数：" + resultException.getParams());
             return apiException;
-        } else if (throwable instanceof ADBaseTransformerManager.TokenException){
+        } else if (throwable instanceof ADBaseTransformerManager.TokenException) {
             ADBaseTransformerManager.TokenException tokenException = (ADBaseTransformerManager.TokenException) throwable;
-            apiException = new ApiException(tokenException,tokenException.getCode());
+            apiException = new ApiException(tokenException, tokenException.getCode());
             apiException.setErrorMessage(tokenException.getMsg());
-            Log.e(this.getClass().getName(), "Token异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, apiException.getErrorMessage() + " \n异常类型：Token异常" + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage() + "\n异常地址：" + tokenException.getUrl() + "\n异常参数：" + tokenException.getParams());
             return apiException;
-        }else if (throwable instanceof JsonParseException ||
+        } else if (throwable instanceof JsonParseException ||
                 throwable instanceof JSONException ||
                 throwable instanceof ParseException) {
             apiException = new ApiException(throwable, Error.PARSE_ERROR);
             apiException.setErrorMessage(Error.STR_PARSE_ERROR);
-            Log.e(this.getClass().getName(), "解析异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, "解析异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
             //环信无网络判断
         } else if (throwable instanceof SocketException || throwable instanceof UnknownHostException || throwable instanceof ApiException) {
             apiException = new ApiException(throwable, Error.NO_NET_ERROR);
             apiException.setErrorMessage(Error.STR_NO_NET_ERROR);
-            Log.e(this.getClass().getName(), "连接异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, "连接异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
         } else if (throwable instanceof SocketTimeoutException) {
             apiException = new ApiException(throwable, Error.TIME_OUT_ERROR);
             apiException.setErrorMessage(Error.STR_TIME_OUT_ERROR);
-            Log.e( this.getClass().getName(), "超时异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, "超时异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
         } else if (throwable instanceof InterruptedException) {
             apiException = new ApiException(throwable, Error.REQUEST_INTERRUPTED_ERROR);
             apiException.setErrorMessage(Error.STR_REQUEST_INTERRUPTED_ERROR);
-            Log.e(this.getClass().getName(), "中断异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, "中断异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
         } else {
             apiException = new ApiException(throwable, Error.UNKNOWN);
             apiException.setErrorMessage(Error.STR_UNKNOWN);
-            Log.e(this.getClass().getName(), "其他异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
+            Log.w(TAG, "其他异常：" + apiException.getErrorMessage() + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage());
             return apiException;
         }
 
@@ -105,7 +109,7 @@ public class ADBaseExceptionManager {
         private int code;
         private String errorMessage;
 
-       public ApiException(Throwable throwable, int code, String errorMessage) {
+        public ApiException(Throwable throwable, int code, String errorMessage) {
             this.throwable = throwable;
             this.code = code;
             this.errorMessage = errorMessage;
