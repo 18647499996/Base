@@ -1,5 +1,7 @@
 package com.liudonghan.base;
 
+import com.liudonghan.mvp.ADBaseLogInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -41,7 +43,7 @@ public class OkHttpUtils {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(new AuthInterceptor())
-                .addInterceptor(new LogInterceptor())
+                .addInterceptor(new ADBaseLogInterceptor())
                 .addInterceptor(new CodeInterceptor())
                 .build();
     }
