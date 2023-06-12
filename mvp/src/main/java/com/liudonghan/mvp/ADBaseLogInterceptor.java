@@ -37,8 +37,8 @@ public class ADBaseLogInterceptor implements Interceptor {
             ResponseBody body = response.peekBody(1024 * 1024);
             maxLogOutput(String.format(Locale.getDefault(), "返回数据 %s in %.1fms%n   %s", URLDecoder.decode(URLDecoder.decode(String.valueOf(response.request().url()), "utf-8"), "utf-8"), (t2 - t1) / 1e6d, body.string()));
         } else {
-            Log.i(this.getClass().getName(), "body null");
-            Log.e("服务器数据异常", String.valueOf(request.url()));
+            Log.w(TAG, "server response body is null");
+            Log.w(TAG, "server data error ：" + String.valueOf(request.url()));
 
         }
         return response;
