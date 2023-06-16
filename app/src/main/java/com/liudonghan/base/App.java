@@ -2,6 +2,7 @@ package com.liudonghan.base;
 
 import android.app.Application;
 
+import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRetrofitManager;
 
 /**
@@ -16,9 +17,12 @@ public class App extends Application {
         super.onCreate();
         ADBaseRetrofitManager
                 .getInstance()
-                .addMultiOkHttpClient("https://loginf.lawxp.com/",1,OkHttpUtils.getInstance().getAuthServiceConfig())
-                .addMultiOkHttpClient("https://im.xinfushenghuo.cn/",2,OkHttpUtils.getInstance().getAuthServiceConfig())
+                .addMultiOkHttpClient("https://loginf.lawxp.com/", 1, OkHttpUtils.getInstance().getAuthServiceConfig())
+                .addMultiOkHttpClient("https://im.xinfushenghuo.cn/", 2, OkHttpUtils.getInstance().getAuthServiceConfig())
                 .initMultiRetrofit();
+        ADBaseExceptionManager
+                .getInstance()
+                .setTokenError("token过期");
 //        BaseLoadingDialog
 //                .getInstance()
 //                .setContentView(R.layout.ad_dialog_loading)

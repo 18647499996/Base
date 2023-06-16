@@ -73,7 +73,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
                             @Override
                             protected void onErrorListener(ADBaseExceptionManager.ApiException e) {
-
+                                ADSnackBarManager.getInstance().showError(MainActivity.this,e.getErrorMessage());
                             }
 
                             @Override
