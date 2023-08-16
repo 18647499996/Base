@@ -68,6 +68,6 @@ dependencies {
     // 侧滑退出Activity
     api 'me.imid.swipebacklayout.lib:library:1.1.0'
     // 沉浸式状态栏
-    api 'com.gyf.immersionbar:immersionbar:3.0.0'
+    api 'com.geyifeng.immersionbar:immersionbar:3.2.2'
 
 }
