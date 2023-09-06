@@ -34,7 +34,7 @@ public class ADBaseTransformerManager {
      *
      * @param <T>
      */
-    private static class BaseFunction<T> implements Func1<Throwable, Observable<T>> {
+    public static class BaseFunction<T> implements Func1<Throwable, Observable<T>> {
 
         @Override
         public Observable<T> call(Throwable throwable) {
@@ -47,7 +47,7 @@ public class ADBaseTransformerManager {
      *
      * @param <T>
      */
-    private static class ServerResultFunc<T> implements Func1<ADBaseResult<T>, T> {
+    public static class ServerResultFunc<T> implements Func1<ADBaseResult<T>, T> {
 
         @Override
         public T call(ADBaseResult<T> baseResult) {
