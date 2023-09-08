@@ -2,7 +2,16 @@ package com.liudonghan.mvp;
 
 import android.util.SparseArray;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.Map;
+import java.util.Set;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -90,7 +99,7 @@ public class ADBaseRetrofitManager {
 
 
     /**
-     * 添加客户端（ 群组模式 ）
+     * todo 添加客户端（ 群组模式 ）
      *
      * @param baseHttpUrl      服务器路径
      * @param baseHttpUrlType  服务器类型
@@ -107,7 +116,7 @@ public class ADBaseRetrofitManager {
 
 
     /**
-     * 切换服务
+     * todo 切换服务 ( 群组模式 ）
      *
      * @param tClass 服务器接口Api
      * @param <T>    接口泛型类
@@ -120,7 +129,7 @@ public class ADBaseRetrofitManager {
     }
 
     /**
-     * 初始化okHttp配置（ 单服务器）
+     * todo 初始化okHttp配置（ 单一配置 ）
      *
      * @return okHttp
      */
@@ -130,7 +139,7 @@ public class ADBaseRetrofitManager {
     }
 
     /**
-     * 配置服务器域名地址
+     * todo 配置服务器域名地址（ 单一配置 ）
      *
      * @param baseHttpUrl 域名地址
      * @return ADBaseRetrofitManager
@@ -140,6 +149,11 @@ public class ADBaseRetrofitManager {
         return this;
     }
 
+    /**
+     * todo 构建Retrofit管理器（ retrofit引用 ）
+     *
+     * @return Retrofit
+     */
     public Retrofit baseRetrofitManager() {
         // 初始化OkHttp配置
         return new Retrofit.Builder()
@@ -153,10 +167,11 @@ public class ADBaseRetrofitManager {
     }
 
     /**
+     * todo 构建Retrofit管理器（ 接口Api ）
      *
-     * @param tClass
-     * @param <T>
-     * @return
+     * @param tClass 接口类
+     * @param <T>    泛型
+     * @return T 接口Api
      */
     public <T> T baseRetrofitManager(Class<T> tClass) {
         // 初始化OkHttp配置
@@ -169,6 +184,45 @@ public class ADBaseRetrofitManager {
                 .build();
         return (T) retrofit.create(tClass);
 
+    }
+
+    /**
+     * todo MediaType application/json 格式
+     *
+     * @param t   序列化数据模型
+     * @param <T> 泛型类
+     * @return RequestBody
+     */
+    public static <T> RequestBody toJson(T t) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(t));
+    }
+
+    /**
+     * todo MediaType application/json 格式
+     *
+     * @param map 参数集合
+     * @return RequestBody
+     */
+    public static RequestBody toJson(Map<String, String> map) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), gson.toJson(map));
+    }
+
+    /**
+     * todo MediaType multipart/form-data
+     *
+     * @param map 参数集合
+     * @return MultipartBody.Builder
+     */
+    public static MultipartBody.Builder toFormData(Map<String, String> map) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        Set<Map.Entry<String, String>> entries = map.entrySet();
+        for (Map.Entry<String, String> next : map.entrySet()) {
+            builder.addFormDataPart(next.getKey(), next.getValue());
+        }
+        return builder;
     }
 
     public static class Model {
