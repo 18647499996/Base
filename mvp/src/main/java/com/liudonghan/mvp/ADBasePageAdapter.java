@@ -139,10 +139,10 @@ public class ADBasePageAdapter extends FragmentPagerAdapter {
      */
     public void removeFragment(int position) {
         Fragment fragment = mFragmentList.get(position);
-        //然后从List中移除
-        mFragmentList.remove(fragment);
         //先从Transaction移除
         removeFragmentInternal(fragment);
+        //然后从List中移除
+        mFragmentList.remove(fragment);
         //最后刷新Adapter
         notifyItemChanged();
     }
@@ -153,8 +153,6 @@ public class ADBasePageAdapter extends FragmentPagerAdapter {
      */
     public void removeAllFragment() {
         for (int i = 0; i < mFragmentList.size(); i++) {
-            //然后从List中移除
-            mFragmentList.remove(mFragmentList.get(i));
             //先从Transaction移除
             removeFragmentInternal(mFragmentList.get(i));
         }
@@ -211,7 +209,7 @@ public class ADBasePageAdapter extends FragmentPagerAdapter {
     private void removeFragmentInternal(Fragment fragment) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.remove(fragment);
-        transaction.commitNow();
+        transaction.commitAllowingStateLoss();
     }
 
     /**
