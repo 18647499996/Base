@@ -212,6 +212,15 @@ public class ADBasePageAdapter extends FragmentPagerAdapter {
         transaction.commitAllowingStateLoss();
     }
 
+    /**
+     * 此方法不用position做返回值即可破解fragment tag异常的错误
+     */
+    @Override
+    public long getItemId(int position) {
+        // 获取当前数据的hashCode，其实这里不用hashCode用自定义的可以关联当前Item对象的唯一值也可以，只要不是直接返回position
+        return mFragmentList.get(position).hashCode();
+    }
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
