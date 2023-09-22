@@ -67,7 +67,7 @@ public class ADBaseLogInterceptor implements Interceptor {
         }
     }
 
-    private static final int MAX_LEN = 3500;
+    private static final int MAX_LEN = 3000;
 
     /**
      * 日志输出
