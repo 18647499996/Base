@@ -2,16 +2,9 @@ package com.liudonghan.mvp;
 
 import android.util.SparseArray;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.util.concurrent.TimeUnit;
 
-import java.util.Map;
-import java.util.Set;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -158,7 +151,7 @@ public class ADBaseRetrofitManager {
         // 初始化OkHttp配置
         return new Retrofit.Builder()
                 .baseUrl(baseHttpUrl)
-                .client(baseOkHttpClient)
+                .client(null == baseOkHttpClient ? getOkHttpClient().build() : baseOkHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -174,16 +167,31 @@ public class ADBaseRetrofitManager {
      * @return T 接口Api
      */
     public <T> T baseRetrofitManager(Class<T> tClass) {
-        // 初始化OkHttp配置
+
+        // 初始化Retrofit配置
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseHttpUrl)
-                .client(baseOkHttpClient)
+                .client(null == baseOkHttpClient ? getOkHttpClient().build() : baseOkHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return (T) retrofit.create(tClass);
 
+    }
+
+    /**
+     * todo 构建OkHttpClient
+     *
+     * @return OkHttpClient.Builder
+     */
+    public OkHttpClient.Builder getOkHttpClient() {
+        return new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(new ADBaseLogInterceptor());
     }
 
     public static class Model {
