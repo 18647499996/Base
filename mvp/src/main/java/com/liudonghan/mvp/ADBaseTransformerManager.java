@@ -1,6 +1,15 @@
 package com.liudonghan.mvp;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.Map;
+import java.util.Set;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -27,6 +36,45 @@ public class ADBaseTransformerManager {
                 .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * todo MediaType application/json 格式
+     *
+     * @param t   序列化数据模型
+     * @param <T> 泛型类
+     * @return RequestBody
+     */
+    public static <T> RequestBody transformJson(T t) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(t));
+    }
+
+    /**
+     * todo MediaType application/json 格式
+     *
+     * @param map 参数集合
+     * @return RequestBody
+     */
+    public static RequestBody transformJson(Map<String, String> map) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), gson.toJson(map));
+    }
+
+    /**
+     * todo MediaType multipart/form-data
+     *
+     * @param map 参数集合
+     * @return MultipartBody.Builder
+     */
+    public static MultipartBody.Builder transformData(Map<String, String> map) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        Set<Map.Entry<String, String>> entries = map.entrySet();
+        for (Map.Entry<String, String> next : map.entrySet()) {
+            builder.addFormDataPart(next.getKey(), next.getValue());
+        }
+        return builder;
     }
 
     /**

@@ -186,45 +186,6 @@ public class ADBaseRetrofitManager {
 
     }
 
-    /**
-     * todo MediaType application/json 格式
-     *
-     * @param t   序列化数据模型
-     * @param <T> 泛型类
-     * @return RequestBody
-     */
-    public static <T> RequestBody toJson(T t) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(t));
-    }
-
-    /**
-     * todo MediaType application/json 格式
-     *
-     * @param map 参数集合
-     * @return RequestBody
-     */
-    public static RequestBody toJson(Map<String, String> map) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), gson.toJson(map));
-    }
-
-    /**
-     * todo MediaType multipart/form-data
-     *
-     * @param map 参数集合
-     * @return MultipartBody.Builder
-     */
-    public static MultipartBody.Builder toFormData(Map<String, String> map) {
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        builder.setType(MultipartBody.FORM);
-        Set<Map.Entry<String, String>> entries = map.entrySet();
-        for (Map.Entry<String, String> next : map.entrySet()) {
-            builder.addFormDataPart(next.getKey(), next.getValue());
-        }
-        return builder;
-    }
-
     public static class Model {
 
         private String baseHttpUrl;
