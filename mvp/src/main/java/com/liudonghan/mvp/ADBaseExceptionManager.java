@@ -256,6 +256,12 @@ public class ADBaseExceptionManager {
      */
     static final int REQUEST_INTERRUPTED_ERROR = 1006;
 
+    public static final int RESPONSE_CODE = 200;
+
+    public static final int AUTH_CODE = 401;
+
+    public static final int AUTH_FOUR_HUNDRED_CODE = 400;
+
     public String STR_HTTP_ERROR = "网络连接失败，请稍后连接";
 
     public String STR_SERVER_ERROR = "服务器连接异常，请稍后连接";

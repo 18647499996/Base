@@ -4,6 +4,7 @@ import android.util.SparseArray;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -40,7 +41,7 @@ public class ADBaseRetrofitManager {
     private static volatile ADBaseRetrofitManager instance = null;
 
 
-    private ADBaseRetrofitManager() {
+    public ADBaseRetrofitManager() {
     }
 
     public static ADBaseRetrofitManager getInstance() {
@@ -151,7 +152,7 @@ public class ADBaseRetrofitManager {
         // 初始化OkHttp配置
         return new Retrofit.Builder()
                 .baseUrl(baseHttpUrl)
-                .client(null == baseOkHttpClient ? getOkHttpClient().build() : baseOkHttpClient)
+                .client(null == baseOkHttpClient ? ADBaseOkHttpClient.getInstance().getOkHttpClient().build() : baseOkHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -171,28 +172,15 @@ public class ADBaseRetrofitManager {
         // 初始化Retrofit配置
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseHttpUrl)
-                .client(null == baseOkHttpClient ? getOkHttpClient().build() : baseOkHttpClient)
+                .client(null == baseOkHttpClient ? ADBaseOkHttpClient.getInstance().getOkHttpClient().build() : baseOkHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        return (T) retrofit.create(tClass);
+        return retrofit.create(tClass);
 
     }
 
-    /**
-     * todo 构建OkHttpClient
-     *
-     * @return OkHttpClient.Builder
-     */
-    public OkHttpClient.Builder getOkHttpClient() {
-        return new OkHttpClient.Builder()
-                .retryOnConnectionFailure(true)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(new ADBaseLogInterceptor());
-    }
 
     public static class Model {
 

@@ -25,6 +25,7 @@ public class ADBaseLogInterceptor implements Interceptor {
 
     private static final String TAG = "Mac_Liu";
 
+    @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
@@ -34,11 +35,11 @@ public class ADBaseLogInterceptor implements Interceptor {
         Response response = chain.proceed(request);
         long t2 = System.nanoTime();
         if (response.body() != null) {
-            ResponseBody body = response.peekBody(1024 * 1024);
+            ResponseBody body = response.peekBody(Integer.MAX_VALUE);
             maxLogOutput(String.format(Locale.getDefault(), "返回数据 %s in %.1fms%n   %s", URLDecoder.decode(URLDecoder.decode(String.valueOf(response.request().url()), "utf-8"), "utf-8"), (t2 - t1) / 1e6d, body.string()));
         } else {
             Log.w(TAG, "server response body is null");
-            Log.w(TAG, "server data error ：" + String.valueOf(request.url()));
+            Log.w(TAG, "server data error ：" + request.url());
 
         }
         return response;
@@ -52,7 +53,7 @@ public class ADBaseLogInterceptor implements Interceptor {
      * @param request 请求数据
      * @return buffer
      */
-    private static String bodyToString(final Request request) {
+    public static String bodyToString(final Request request) {
 
         try {
             final Request copy = request.newBuilder().build();

@@ -4,12 +4,14 @@ package com.liudonghan.mvp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -35,6 +37,21 @@ public class ADBaseTransformerManager {
                 .onErrorResumeNext(new BaseFunction<>())
                 .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * RxJava线程调度器（线程切换）下载文件
+     *
+     * @param <T> 可变参数
+     * @return Observable.Transformer<BaseResult < T>, T>
+     */
+    public static <T> Observable.Transformer<ResponseBody, File> defaultSchedulers(File downloadFile) {
+        return requestBodyObservable -> requestBodyObservable
+                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .map(requestBody -> ADBaseFileDownloadInterceptor.writeFile(requestBody.byteStream(), downloadFile))
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -129,20 +146,20 @@ public class ADBaseTransformerManager {
             this.msg = msg;
         }
 
-        public ServerException(int code, String msg,String url) {
+        public ServerException(int code, String msg, String url) {
             this.code = code;
             this.msg = msg;
             this.url = url;
         }
 
-        public ServerException(int code, String msg,String url,String params) {
+        public ServerException(int code, String msg, String url, String params) {
             this.code = code;
             this.msg = msg;
             this.url = url;
             this.params = params;
         }
 
-        public ServerException(int code, String msg,String url,String params,String headers) {
+        public ServerException(int code, String msg, String url, String params, String headers) {
             this.code = code;
             this.msg = msg;
             this.url = url;
@@ -207,27 +224,26 @@ public class ADBaseTransformerManager {
             this.msg = msg;
         }
 
-        public TokenException(int code, String msg,String url) {
+        public TokenException(int code, String msg, String url) {
             this.code = code;
             this.msg = msg;
             this.url = url;
         }
 
-        public TokenException(int code, String msg,String url,String params) {
+        public TokenException(int code, String msg, String url, String params) {
             this.code = code;
             this.msg = msg;
             this.url = url;
             this.params = params;
         }
 
-        public TokenException(int code, String msg,String url,String params,String headers) {
+        public TokenException(int code, String msg, String url, String params, String headers) {
             this.code = code;
             this.msg = msg;
             this.url = url;
             this.params = params;
             this.headers = headers;
         }
-
 
 
         public int getCode() {

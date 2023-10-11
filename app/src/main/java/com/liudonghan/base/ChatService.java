@@ -2,7 +2,10 @@ package com.liudonghan.base;
 
 import com.liudonghan.mvp.ADBaseResult;
 
+import okhttp3.ResponseBody;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
 import rx.Observable;
 
 /**
@@ -19,4 +22,8 @@ public interface ChatService {
      */
     @POST("j_user/getUserInfo?")
     Observable<ADBaseResult<UserModel>> getUserInfo();
+
+    @Streaming
+    @GET("/")
+    Observable<ResponseBody> getWallpaper();
 }
