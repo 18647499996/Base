@@ -153,7 +153,6 @@ public class ADBaseFileDownloadInterceptor implements Interceptor {
                 public long read(@NonNull Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
                     totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                    Log.i("Mac_Liu", "download read: " + (int) (totalBytesRead * 100 / responseBody.contentLength()));
                     if (null != downloadListener) {
                         if (bytesRead != -1) {
                             downloadListener.onProgress((int) (totalBytesRead), (int) (totalBytesRead * 100 / responseBody.contentLength()), responseBody.contentLength());
