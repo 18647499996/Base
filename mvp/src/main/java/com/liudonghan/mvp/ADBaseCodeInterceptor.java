@@ -51,6 +51,7 @@ public class ADBaseCodeInterceptor implements Interceptor {
                 case 0:
                 case 1:
                 case 200:
+                case 2000:
                 case 10000:
                     return response;
                 default:
