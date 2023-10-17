@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Time:2018/8/2
  */
 public class ADBaseResult<T> implements Serializable {
-    @SerializedName(value = "code", alternate = {"status", "httpCode", "errorCode","error_code"})
+    @SerializedName(value = "code", alternate = {"status", "httpCode", "errorCode","error_code","statusCode"})
     private int code;
     @SerializedName(value = "msg", alternate = {"message", "errorMsg"})
     private String msg;
