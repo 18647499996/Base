@@ -11,15 +11,15 @@ import java.io.Serializable;
  * Time:2018/8/2
  */
 public class ADBaseResult<T> implements Serializable {
-    @SerializedName(value = "code", alternate = {"status", "httpCode", "errorCode","error_code","statusCode"})
+    @SerializedName(value = "code", alternate = {"status", "httpCode", "errorCode", "error_code", "statusCode"})
     private int code;
     @SerializedName(value = "msg", alternate = {"message", "errorMsg"})
     private String msg;
-    @SerializedName(value = "data", alternate = {"result","value"})
+    @SerializedName(value = "data", alternate = {"result", "value"})
     private T data;
     @SerializedName(value = "encrypted")
     private String encrypted;
-    @SerializedName(value = "timestamp")
+    @SerializedName(value = "timestamp", alternate = {"time"})
     private String timestamp;
     @SerializedName(value = "isSuccess")
     private boolean isSuccess;
