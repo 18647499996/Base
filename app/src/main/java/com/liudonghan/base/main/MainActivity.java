@@ -14,25 +14,30 @@ import com.liudonghan.base.OkHttpUtils;
 import com.liudonghan.base.R;
 import com.liudonghan.base.UserModel;
 import com.liudonghan.base.UserService;
+import com.liudonghan.base.WHBNewDetailsBean;
 import com.liudonghan.base.WallpaperInterceptor;
 import com.liudonghan.base.fragment.DemoFragment;
 import com.liudonghan.multi_image.permission.ADPermission;
 import com.liudonghan.multi_image.permission.OnPermission;
 import com.liudonghan.multi_image.permission.Permission;
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.mvp.ADBaseCodeInterceptor;
 import com.liudonghan.mvp.ADBaseDialogListener;
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseFileDownloadInterceptor;
 import com.liudonghan.mvp.ADBaseLoadingDialog;
+import com.liudonghan.mvp.ADBaseLogInterceptor;
 import com.liudonghan.mvp.ADBaseOkHttpClient;
 import com.liudonghan.mvp.ADBasePopupWindow;
 import com.liudonghan.mvp.ADBaseRequestResult;
 import com.liudonghan.mvp.ADBaseRetrofitManager;
 import com.liudonghan.mvp.ADBaseTransformerManager;
+import com.liudonghan.utils.ADParamsUtils;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -197,7 +202,33 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void addListener() throws RuntimeException {
+        ADBaseRetrofitManager.getInstance()
+                .baseHttpUrl("https://api.whb.cn")
+                .baseOkHttpClient(ADBaseOkHttpClient.getInstance().getOkHttpClient(new ADBaseLogInterceptor(), new ADBaseCodeInterceptor()).build())
+                .baseRetrofitManager(ChatService.class)
+                .getWHBNewDetails("02", ADBaseTransformerManager.transformJson(
+                        new ADParamsUtils()
+                                .put("contId", "545254")
+                                .params()))
+                .compose(ADBaseTransformerManager.defaultSchedulers())
+                .doOnNext(whbNewDetailsBean -> {
+                    whbNewDetailsBean.getTextInfo().getImages();
+                }).subscribe(new ADBaseRequestResult<WHBNewDetailsBean>() {
+            @Override
+            protected void onCompletedListener() {
 
+            }
+
+            @Override
+            protected void onErrorListener(ADBaseExceptionManager.ApiException e) {
+
+            }
+
+            @Override
+            protected void onNextListener(WHBNewDetailsBean whbNewDetailsBean) {
+
+            }
+        });
     }
 
     @Override

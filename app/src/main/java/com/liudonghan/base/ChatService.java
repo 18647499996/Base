@@ -2,8 +2,11 @@ package com.liudonghan.base;
 
 import com.liudonghan.mvp.ADBaseResult;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Streaming;
 import rx.Observable;
@@ -26,4 +29,7 @@ public interface ChatService {
     @Streaming
     @GET("/")
     Observable<ResponseBody> getWallpaper();
+
+    @POST("app/news/newsDetails?")
+    Observable<ADBaseResult<WHBNewDetailsBean>> getWHBNewDetails(@Header("Whb-Client-Type") String headers, @Body RequestBody requestBody);
 }

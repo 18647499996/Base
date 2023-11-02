@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
 
     implementation 'com.github.18647499996:Component:2.6.0'
-    implementation 'com.github.18647499996:Utils:1.0.4'
+    implementation 'com.github.18647499996:Utils:2.5.6'
     implementation 'com.github.18647499996:multi-image-selector:2.0.2'
 
     // 初始化控件插件
