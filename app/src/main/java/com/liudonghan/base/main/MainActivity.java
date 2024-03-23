@@ -77,31 +77,29 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
             public void onClick(View view) {
                 ADBaseLoadingDialog.getInstance().init(MainActivity.this, "点击加载");
                 ADBaseRetrofitManager.getInstance()
-                        .baseHttpUrl("https://bing.icodeq.com/")
+                        .baseHttpUrl("https://cn.bing.com/")
                         .baseOkHttpClient(ADBaseOkHttpClient.getInstance()
-                                .getOkHttpClient(
-                                        new WallpaperInterceptor(),
-                                        new ADBaseFileDownloadInterceptor(new ADBaseFileDownloadInterceptor.DownloadListener() {
-                                            @Override
-                                            public void onStartDownload(long length) {
-                                                Log.i("Mac_Liu", "start download " + length);
-                                            }
+                                .getOkHttpClient(new WallpaperInterceptor(),new ADBaseFileDownloadInterceptor(new ADBaseFileDownloadInterceptor.DownloadListener() {
+                                    @Override
+                                    public void onStartDownload(long length) {
+                                        Log.i("Mac_Liu", "start download " + length);
+                                    }
 
-                                            @Override
-                                            public void onProgress(int progress, int read, long totalSize) {
-                                                Log.i("Mac_Liu", "progress " + progress + "  total " + totalSize);
-                                            }
+                                    @Override
+                                    public void onProgress(int progress, int read, long totalSize) {
+                                        Log.i("Mac_Liu", "progress " + progress + "  total " + totalSize);
+                                    }
 
-                                            @Override
-                                            public void onFail(String errorInfo) {
-                                                Log.i("Mac_Liu", "download error" + errorInfo);
-                                            }
+                                    @Override
+                                    public void onFail(String errorInfo) {
+                                        Log.i("Mac_Liu", "download error" + errorInfo);
+                                    }
 
-                                            @Override
-                                            public void onSucceed(File file) {
-                                                Log.i("Mac_Liu", "download succeed" + file);
-                                            }
-                                        })).build())
+                                    @Override
+                                    public void onSucceed(File file) {
+                                        Log.i("Mac_Liu", "download succeed" + file);
+                                    }
+                                })).build())
                         .baseRetrofitManager(ChatService.class)
                         .getWallpaper()
                         .compose(ADBaseTransformerManager.defaultSchedulers(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/", "dog_" + System.currentTimeMillis() + ".jpg")))
@@ -195,7 +193,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
                     .setData(userModel)
                     .findViewById((helper, userModel1) -> helper.setText(R.id.popup_tv_title, userModel1.getNickname()))
                     .builder()
-                    .show();
+                    .showAtLocation();
         });
 
     }

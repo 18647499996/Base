@@ -35,9 +35,9 @@ public class ADBaseTransformerManager {
         return baseResultObservable -> baseResultObservable
                 .map(new ServerResultFunc<>())
                 .onErrorResumeNext(new BaseFunction<>())
-                .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
     }
 
     /**

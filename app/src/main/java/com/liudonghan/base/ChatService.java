@@ -27,7 +27,7 @@ public interface ChatService {
     Observable<ADBaseResult<UserModel>> getUserInfo();
 
     @Streaming
-    @GET("/")
+    @GET("/th?id=OHR.BoxingDaySunrise_EN-US9951041123_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp")
     Observable<ResponseBody> getWallpaper();
 
     @POST("app/news/newsDetails?")
