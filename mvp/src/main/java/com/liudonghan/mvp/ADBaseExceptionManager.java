@@ -148,12 +148,14 @@ public class ADBaseExceptionManager {
             ADBaseTransformerManager.ServerException resultException = (ADBaseTransformerManager.ServerException) throwable;
             apiException = new ApiException(resultException, resultException.getCode());
             apiException.setErrorMessage(null == resultException.getMsg() ? STR_SERVER_ERROR : resultException.getMsg());
+            apiException.setData(resultException.getData());
             Log.w(TAG, apiException.getErrorMessage() + "\n异常类型：服务器异常" + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage() + "\n异常地址：" + resultException.getUrl() + "\n异常参数：" + resultException.getParams());
             return apiException;
         } else if (throwable instanceof ADBaseTransformerManager.TokenException) {
             ADBaseTransformerManager.TokenException tokenException = (ADBaseTransformerManager.TokenException) throwable;
             apiException = new ApiException(tokenException, tokenException.getCode());
             apiException.setErrorMessage(STR_TOKEN_ERROR);
+            apiException.setData(tokenException.getData());
             Log.w(TAG, apiException.getErrorMessage() + " \n异常类型：Token异常" + "\n异常编码：" + apiException.getCode() + "\n异常信息：" + apiException.getThrowable().getMessage() + "\n异常地址：" + tokenException.getUrl() + "\n异常参数：" + tokenException.getParams());
             return apiException;
         } else if (throwable instanceof JsonParseException ||
@@ -196,6 +198,7 @@ public class ADBaseExceptionManager {
         private final Throwable throwable;
         private int code;
         private String errorMessage;
+        private String data;
 
         public ApiException(Throwable throwable, int code, String errorMessage) {
             this.throwable = throwable;
@@ -227,6 +230,14 @@ public class ADBaseExceptionManager {
 
         private void setErrorMessage(String errorMessage) {
             this.errorMessage = errorMessage;
+        }
+
+        public String getData() {
+            return data;
+        }
+
+        public void setData(String data) {
+            this.data = data;
         }
     }
 

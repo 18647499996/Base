@@ -42,7 +42,7 @@ public class CodeInterceptor implements Interceptor {
             if (!TextUtils.isEmpty(bodyStr)) {
                 ADBaseResult baseResult = GsonUtils.fromJson(bodyStr, ADBaseResult.class);
                 if (null == baseResult) {
-                    Log.e("服务器数据：" , bodyStr);
+                    Log.e("服务器数据：", bodyStr);
                     throw new ADBaseTransformerManager.ServerException();
                 }
                 code = baseResult.getCode();
@@ -60,19 +60,18 @@ public class CodeInterceptor implements Interceptor {
                     return response;
                 case 2:
                 case 401:
-//                    RxBus.get().post(Constant.User.TOKEN_OVERDUE);
-                    throw new ADBaseTransformerManager.TokenException(code, msg,URLDecoder.decode(String.valueOf(request.url()), "utf-8"),bodyToString(request));
                 case 1000:
                     // 可以通过发送RxBus通知进入登录页面
-                    throw new ADBaseTransformerManager.TokenException(code, msg,URLDecoder.decode(String.valueOf(request.url()), "utf-8"),bodyToString(request));
+                    // RxBus.get().post(Constant.User.TOKEN_OVERDUE);
+                    throw new ADBaseTransformerManager.TokenException(code, msg, URLDecoder.decode(String.valueOf(request.url()), "utf-8"), bodyToString(request), bodyStr);
                 case 400:
                 case 190:
                 default:
-                    throw new ADBaseTransformerManager.ServerException(code, msg, URLDecoder.decode(String.valueOf(request.url()), "utf-8"),bodyToString(request));
+                    throw new ADBaseTransformerManager.ServerException(code, msg, URLDecoder.decode(String.valueOf(request.url()), "utf-8"), bodyToString(request), bodyStr);
             }
         } else if (401 == response.code()) {
 //            RxBus.get().post(Constant.User.TOKEN_OVERDUE);
-            throw new ADBaseTransformerManager.TokenException(response.code(), "用户授权失败，请重新登录",URLDecoder.decode(String.valueOf(request.url()), "utf-8"),bodyToString(request));
+            throw new ADBaseTransformerManager.TokenException(response.code(), "用户授权失败，请重新登录", URLDecoder.decode(String.valueOf(request.url()), "utf-8"), bodyToString(request));
         } else if (401 == response.code()) {
             throw new ADBaseTransformerManager.TokenException(response.code(), "无网络连接，请检查您的网络");
         } else {
