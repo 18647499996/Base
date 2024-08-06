@@ -1,5 +1,6 @@
 package com.liudonghan.mvp;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.concurrent.TimeUnit;
@@ -61,6 +62,7 @@ public class ADBaseRetrofitManager {
      * 初始化retrofit（ 多域名配置 ）
      */
     public void initMultiRetrofit() {
+        Log.i("TAG","多请求体大小：" + modelSparseArray.size());
         for (int i = 0; i < modelSparseArray.size(); i++) {
             int key = modelSparseArray.keyAt(i);
             Model model = modelSparseArray.get(key);
@@ -179,6 +181,14 @@ public class ADBaseRetrofitManager {
                 .build();
         return retrofit.create(tClass);
 
+    }
+
+    /**
+     * 清空
+     */
+    public void clear() {
+        retrofitManager.clear();
+        modelSparseArray.clear();
     }
 
 
