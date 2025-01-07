@@ -26,7 +26,7 @@ import rx.schedulers.Schedulers;
 public class ADBaseTransformerManager {
 
     /**
-     * RxJava线程调度器（线程切换）
+     * todo RxJava线程调度器（线程切换）
      *
      * @param <T> 可变参数
      * @return Observable.Transformer<BaseResult < T>, T>
@@ -41,7 +41,7 @@ public class ADBaseTransformerManager {
     }
 
     /**
-     * RxJava线程调度器（线程切换）下载文件
+     * todo RxJava线程调度器（线程切换）下载文件
      *
      * @param <T> 可变参数
      * @return Observable.Transformer<BaseResult < T>, T>
@@ -76,6 +76,39 @@ public class ADBaseTransformerManager {
     public static RequestBody transformJson(Map<String, String> map) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), gson.toJson(map));
+    }
+
+    /**
+     * todo 上传文件
+     *
+     * @param file File文件
+     * @return MultipartBody.Part 请求类型
+     */
+    public static MultipartBody.Part transformUploadFile(File file) {
+        return transformUploadFile(file, file.getName());
+    }
+
+    /**
+     * todo 上传文件
+     *
+     * @param file     File文件
+     * @param fileName File文件名称
+     * @return MultipartBody.Part
+     */
+    public static MultipartBody.Part transformUploadFile(File file, String fileName) {
+        return transformUploadFile(file, fileName, "file");
+    }
+
+    /**
+     * todo 上传文件
+     *
+     * @param file     File文件
+     * @param fileName 文件名称Ï
+     * @param name     key值Name
+     * @return MultipartBody.Part
+     */
+    public static MultipartBody.Part transformUploadFile(File file, String fileName, String name) {
+        return MultipartBody.Part.createFormData(name, fileName, RequestBody.create(MediaType.parse("application/octet-stream"), file));
     }
 
     /**
@@ -168,7 +201,7 @@ public class ADBaseTransformerManager {
             this.data = data;
         }
 
-        public ServerException(int code, String msg, String url, String params, String data,String headers) {
+        public ServerException(int code, String msg, String url, String params, String data, String headers) {
             this.code = code;
             this.msg = msg;
             this.url = url;
@@ -266,7 +299,7 @@ public class ADBaseTransformerManager {
             this.data = data;
         }
 
-        public TokenException(int code, String msg, String url, String params, String data,String headers) {
+        public TokenException(int code, String msg, String url, String params, String data, String headers) {
             this.code = code;
             this.msg = msg;
             this.url = url;

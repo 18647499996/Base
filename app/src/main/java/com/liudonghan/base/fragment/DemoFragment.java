@@ -38,7 +38,7 @@ public class DemoFragment extends ADBaseFragment<DemoPresenter, MainActivity> im
 
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
-        Log.d("MAC_LIU","当前：" + getCurrentActivity().main);
+
     }
 
     @Override
