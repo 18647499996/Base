@@ -65,8 +65,6 @@ dependencies {
     api 'com.squareup.retrofit2:adapter-rxjava:2.9.0'
     // retrofit json 转换工厂
     api 'com.squareup.retrofit2:converter-gson:2.9.0'
-    // 侧滑退出Activity
-    api 'me.imid.swipebacklayout.lib:library:1.1.0'
     // 沉浸式状态栏
     api 'com.geyifeng.immersionbar:immersionbar:3.2.2'
 

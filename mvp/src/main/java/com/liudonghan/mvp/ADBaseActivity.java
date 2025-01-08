@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import butterknife.ButterKnife;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 
 /**
@@ -22,7 +22,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public abstract class ADBaseActivity<P extends ADBasePresenter> extends SwipeBackActivity implements View.OnClickListener {
+public abstract class ADBaseActivity<P extends ADBasePresenter> extends AppCompatActivity implements View.OnClickListener {
 
     public ImmersionBar immersionBar;
     private long lastClickTime = 0;
