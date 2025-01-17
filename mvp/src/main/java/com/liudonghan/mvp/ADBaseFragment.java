@@ -43,13 +43,6 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, V> extends Fragm
     }
 
     /**
-     * 加载布局
-     *
-     * @return 布局文件
-     */
-    protected abstract int loadViewLayout();
-
-    /**
      * 加载ViewBinding布局
      *
      * @return View

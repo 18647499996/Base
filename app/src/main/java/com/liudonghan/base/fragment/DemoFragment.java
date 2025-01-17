@@ -31,11 +31,6 @@ public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBind
     }
 
     @Override
-    protected int loadViewLayout() {
-        return R.layout.fragment_demo;
-    }
-
-    @Override
     protected ADTitleBuilder initBuilderTitle(View view) throws RuntimeException {
         return null;
     }

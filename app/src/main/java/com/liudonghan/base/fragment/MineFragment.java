@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
-import com.liudonghan.base.R;
-import com.liudonghan.base.databinding.FragmentDemoBinding;
 import com.liudonghan.base.databinding.FragmentMineBinding;
 import com.liudonghan.mvp.ADBaseFragment;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
@@ -27,12 +25,6 @@ public class MineFragment extends ADBaseFragment<DemoPresenter, FragmentMineBind
     @Override
     protected FragmentMineBinding getFragmentViewBinding() {
         return FragmentMineBinding.inflate(getLayoutInflater());
-    }
-
-
-    @Override
-    protected int loadViewLayout() {
-        return R.layout.fragment_demo;
     }
 
     @Override
@@ -58,7 +50,7 @@ public class MineFragment extends ADBaseFragment<DemoPresenter, FragmentMineBind
 
     @Override
     protected void setListener() throws RuntimeException {
-        mViewBinding.fragmentMineTvContent.setText("");
+
     }
 
     @Override

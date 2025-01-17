@@ -4,15 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
-import com.liudonghan.base.R;
-import com.liudonghan.base.databinding.FragmentDemoBinding;
 import com.liudonghan.base.databinding.FragmentFansBinding;
 import com.liudonghan.base.dialog.FansDialogBuilder;
 import com.liudonghan.mvp.ADBaseFragment;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
-
-import java.util.Objects;
 
 /**
  * Description：
@@ -30,12 +26,6 @@ public class FansFragment extends ADBaseFragment<DemoPresenter, FragmentFansBind
     @Override
     protected FragmentFansBinding getFragmentViewBinding() {
         return FragmentFansBinding.inflate(getLayoutInflater());
-    }
-
-
-    @Override
-    protected int loadViewLayout() {
-        return R.layout.fragment_demo;
     }
 
     @Override
