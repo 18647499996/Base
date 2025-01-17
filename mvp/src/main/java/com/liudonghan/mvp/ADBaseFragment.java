@@ -116,7 +116,7 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, V> extends Fragm
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        mViewBinding = null;
     }
 
     @Override
