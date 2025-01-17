@@ -50,9 +50,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // 初始化控件插件
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     // RxJava3 Android
     api 'io.reactivex.rxjava3:rxandroid:3.0.2'
     // RxAndroid

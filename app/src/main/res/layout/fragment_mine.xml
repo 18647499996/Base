@@ -7,7 +7,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/fragment_demo_tv_content"
+        android:id="@+id/fragment_mine_tv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

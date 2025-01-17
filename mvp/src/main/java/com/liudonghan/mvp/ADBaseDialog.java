@@ -17,8 +17,8 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Calendar;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+//import butterknife.ButterKnife;
+//import butterknife.Unbinder;
 
 /**
  * Description：
@@ -26,15 +26,18 @@ import butterknife.Unbinder;
  * @author Created by: Li_Min
  * Time:2/10/23
  */
-public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Dialog implements View.OnClickListener {
+public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V> extends Dialog implements View.OnClickListener {
 
-    public Context context;
-    public Unbinder bind;
-    public T data;
-    public L listener;
+    protected Context context;
+    //    public Unbinder bind;
+    protected T data;
+    protected L listener;
+    protected V mViewBinding;
     private long lastClickTime = 0;
+    private boolean cancelable = true;
+    private boolean canceledOnTouchOutside = true;
 
-    protected abstract int getLayoutResourcesId();
+    protected abstract View getLayoutResourcesId();
 
     protected abstract GravityDirection getGravityDirection();
 
@@ -59,18 +62,21 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewBinding = getDialogViewBinding();
         setContentView(getLayoutResourcesId());
-        bind = ButterKnife.bind(this);
         initData();
         initListener();
+        setCancelable(cancelable);
+        setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
+
+    protected abstract V getDialogViewBinding();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("RtlHardcoded")
     @Override
     public void onStart() {
         super.onStart();
-
         Window window = getWindow();
         if (window != null) {
             // Dialog弹出方向
@@ -100,7 +106,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
             WindowManager windowManager = ((Activity) context).getWindowManager();
             Display display = windowManager.getDefaultDisplay();
             WindowManager.LayoutParams params = window.getAttributes();
-            params.width = (int) (display.getWidth());
+            params.width = display.getWidth();
             window.setAttributes(params);
         }
     }
@@ -108,9 +114,6 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (null != bind) {
-            bind.unbind();
-        }
     }
 
     @Override
@@ -138,8 +141,8 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
      * @param isCanceled 是否取消
      * @return ADBaseDialog
      */
-    public ADBaseDialog<L, T> setDialogCancelable(boolean isCanceled) {
-        setCancelable(isCanceled);
+    public ADBaseDialog<L, T, V> setDialogCancelable(boolean isCanceled) {
+        this.cancelable = isCanceled;
         return this;
     }
 
@@ -149,8 +152,8 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
      * @param isCanceledOnTouchOutside 是否取消
      * @return ADBaseDialog
      */
-    public ADBaseDialog<L, T> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
-        setCanceledOnTouchOutside(isCanceledOnTouchOutside);
+    public ADBaseDialog<L, T, V> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
+        this.canceledOnTouchOutside = isCanceledOnTouchOutside;
         return this;
     }
 
@@ -167,7 +170,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
      * @param data 数据源
      * @return ADBaseDialog<L, T>
      */
-    public ADBaseDialog<L, T> setData(T data) {
+    public ADBaseDialog<L, T, V> setData(T data) {
         this.data = data;
         return this;
     }
@@ -178,7 +181,7 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T> extends Di
      * @param listener 回调接口
      * @return DialogFragment
      */
-    public ADBaseDialog<L, T> setOnDialogListener(L listener) {
+    public ADBaseDialog<L, T, V> setOnDialogListener(L listener) {
         this.listener = listener;
         return this;
     }

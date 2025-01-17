@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liudonghan.view.city.ADCityView
-    android:id="@+id/dialog_builder"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<com.liudonghan.view.radius.ADRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
 
-</com.liudonghan.view.city.ADCityView>
+    <com.liudonghan.view.radius.ADTextView
+        android:id="@+id/dialog_builder_tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/dip_12"
+        android:layout_marginRight="@dimen/dip_12"
+        android:background="@color/color_505257"
+        android:gravity="center"
+        app:liu_round_corner="5dp" />
+</com.liudonghan.view.radius.ADRelativeLayout>

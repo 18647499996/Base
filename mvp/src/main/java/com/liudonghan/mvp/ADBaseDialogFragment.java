@@ -22,23 +22,20 @@ import androidx.fragment.app.FragmentManager;
 import java.util.Calendar;
 import java.util.Objects;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Description：DialogFragment基类
  *
  * @author Created by: Li_Min
  * Time:12/3/21
  */
-public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> extends DialogFragment implements View.OnClickListener {
+public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V> extends DialogFragment implements View.OnClickListener {
 
-    private Unbinder bind;
     private long lastClickTime = 0;
     protected T onDialogFragmentListener;
     protected P data;
+    protected V mViewBinding;
     protected Dialog dialog;
-    private boolean isCancelable, isCanceledOnTouchOutside;
+    private boolean isCancelable = true, isCanceledOnTouchOutside = true;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @NonNull
@@ -51,13 +48,17 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutResourcesId(), container, false);
-        bind = ButterKnife.bind(this, view);
+        mViewBinding = getDialogFragmentViewBinding();
+        return getLayoutResourcesId();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         dialog.setCancelable(isCancelable);
         dialog.setCanceledOnTouchOutside(isCanceledOnTouchOutside);
         initData(view);
         initListener();
-        return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -95,7 +96,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
             WindowManager windowManager = requireActivity().getWindowManager();
             Display display = windowManager.getDefaultDisplay();
             WindowManager.LayoutParams params = window.getAttributes();
-            params.width = (int) (display.getWidth());
+            params.width = display.getWidth();
             window.setAttributes(params);
         }
     }
@@ -111,17 +112,22 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (null != bind) {
-            bind.unbind();
-        }
     }
+
+    /**
+     * 构建ViewBinding实例
+     *
+     * @return V
+     */
+    protected abstract V getDialogFragmentViewBinding();
+
 
     /**
      * 添加Dialog弹窗布局
      *
      * @return 布局ID
      */
-    protected abstract int getLayoutResourcesId();
+    protected abstract View getLayoutResourcesId();
 
     /**
      * 弹出方向
@@ -182,7 +188,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
      * @param t 回调接口
      * @return DialogFragment
      */
-    public ADBaseDialogFragment<T, P> setOnDialogFragmentListener(T t) {
+    public ADBaseDialogFragment<T, P, V> setOnDialogFragmentListener(T t) {
         this.onDialogFragmentListener = t;
         return this;
     }
@@ -194,7 +200,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
      * @param tag     弹窗Tag
      * @return DialogFragment
      */
-    public ADBaseDialogFragment<T, P> showDialogFragment(FragmentManager manager, String tag) {
+    public ADBaseDialogFragment<T, P, V> showDialogFragment(FragmentManager manager, String tag) {
         show(manager, tag);
 
         return this;
@@ -206,7 +212,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
      * @param data 数据源
      * @return BaseDialogFragment<T, P>
      */
-    public ADBaseDialogFragment<T, P> setDialogFragmentData(P data) {
+    public ADBaseDialogFragment<T, P, V> setDialogFragmentData(P data) {
         this.data = data;
         return this;
     }
@@ -217,7 +223,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
      * @param isCanceled 是否取消
      * @return BaseDialogFragment<T, P>
      */
-    public ADBaseDialogFragment<T, P> setDialogCancelable(boolean isCanceled) {
+    public ADBaseDialogFragment<T, P, V> setDialogCancelable(boolean isCanceled) {
         this.isCancelable = isCanceled;
         return this;
     }
@@ -228,7 +234,7 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P> ex
      * @param isCanceledOnTouchOutside 是否取消
      * @return BaseDialogFragment<T, P>
      */
-    public ADBaseDialogFragment<T, P> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
+    public ADBaseDialogFragment<T, P, V> setDialogCanceledOnTouchOutside(boolean isCanceledOnTouchOutside) {
         this.isCanceledOnTouchOutside = isCanceledOnTouchOutside;
         return this;
     }

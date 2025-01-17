@@ -7,60 +7,39 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.Calendar;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Fragment基类
  *
  * @author liudonghan 2015-11-29
  */
-public abstract class ADBaseFragment<P extends ADBasePresenter, A> extends Fragment implements OnClickListener {
-    private Unbinder unbinder;
+public abstract class ADBaseFragment<P extends ADBasePresenter, V> extends Fragment implements OnClickListener {
     private View view;
     private long lastClickTime;
     protected ImmersionBar immersionBar;
 
     protected P mPresenter;
+    protected V mViewBinding;
 
-    protected A currentActivity;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view == null) {
-            view = initView(inflater, container, savedInstanceState);
-        } else {
-            container = (ViewGroup) view.getParent();
-        }
-        if (container != null) {
-            container.removeView(view);
-        }
-        return view;
-
+        mViewBinding = getFragmentViewBinding();
+        return getViewBindingLayout();
     }
 
-    /**
-     * 初始化布局
-     */
-    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        try {
-            View pView = inflater.inflate(loadViewLayout(), container, false);
-            unbinder = ButterKnife.bind(this, pView);
-            initBuilderTitle(pView);
-            initDatas(savedInstanceState, pView);
-            setListener();
-            return pView;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initBuilderTitle(view);
+        init(savedInstanceState);
+        setListener();
     }
 
     /**
@@ -69,6 +48,20 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, A> extends Fragm
      * @return 布局文件
      */
     protected abstract int loadViewLayout();
+
+    /**
+     * 加载ViewBinding布局
+     *
+     * @return View
+     */
+    protected abstract View getViewBindingLayout();
+
+    /**
+     * 构建FragmentViewBinding布局
+     *
+     * @return V
+     */
+    protected abstract V getFragmentViewBinding();
 
     /**
      * 初始化标题
@@ -129,12 +122,6 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, A> extends Fragm
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != unbinder) {
-            unbinder.unbind();
-        }
-//        if (null != immersionBar) {
-//            immersionBar.destroy();
-//        }
         //页面销毁时取消presenter绑定
         if (mPresenter != null) {
             mPresenter.onDestroy();
@@ -153,9 +140,8 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, A> extends Fragm
      * 初始化数据（沉浸式状态栏）
      *
      * @param savedInstanceState intent数据
-     * @param pView              view视图
      */
-    public void initDatas(Bundle savedInstanceState, View pView) {
+    public void init(Bundle savedInstanceState) {
         // 初始化沉浸式
         immersionBar = ImmersionBar.with(this);
         mPresenter = createPresenter();
@@ -163,9 +149,5 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, A> extends Fragm
             mPresenter.onSubscribe();
         }
         initData(savedInstanceState);
-    }
-
-    public A getCurrentActivity() {
-        return currentActivity = (A) getActivity();
     }
 }

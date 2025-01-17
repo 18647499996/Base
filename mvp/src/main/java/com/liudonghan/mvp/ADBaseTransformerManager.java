@@ -43,7 +43,8 @@ public class ADBaseTransformerManager {
     /**
      * todo RxJava线程调度器（线程切换）下载文件
      *
-     * @param <T> 可变参数
+     * @param downloadFile 下载文件File
+     * @param <T>          可变参数
      * @return Observable.Transformer<BaseResult < T>, T>
      */
     public static <T> Observable.Transformer<ResponseBody, File> defaultSchedulers(File downloadFile) {
@@ -120,7 +121,6 @@ public class ADBaseTransformerManager {
     public static MultipartBody.Builder transformData(Map<String, String> map) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
-        Set<Map.Entry<String, String>> entries = map.entrySet();
         for (Map.Entry<String, String> next : map.entrySet()) {
             builder.addFormDataPart(next.getKey(), next.getValue());
         }

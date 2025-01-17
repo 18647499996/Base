@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
-import com.liudonghan.base.dialog.DialogBuilder;
 import com.liudonghan.base.R;
 import com.liudonghan.base.databinding.FragmentDemoBinding;
+import com.liudonghan.base.databinding.FragmentMineBinding;
 import com.liudonghan.mvp.ADBaseFragment;
-import com.liudonghan.view.calendar.ADCalendarEntity;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
 
@@ -18,7 +17,7 @@ import com.liudonghan.view.title.ADTitleBuilder;
  * @author Created by: Li_Min
  * Time:
  */
-public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBinding> implements DemoContract.View {
+public class MineFragment extends ADBaseFragment<DemoPresenter, FragmentMineBinding> implements DemoContract.View {
 
     @Override
     protected View getViewBindingLayout() {
@@ -26,9 +25,10 @@ public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBind
     }
 
     @Override
-    protected FragmentDemoBinding getFragmentViewBinding() {
-        return FragmentDemoBinding.inflate(getLayoutInflater());
+    protected FragmentMineBinding getFragmentViewBinding() {
+        return FragmentMineBinding.inflate(getLayoutInflater());
     }
+
 
     @Override
     protected int loadViewLayout() {
@@ -48,35 +48,17 @@ public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBind
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
-        mViewBinding.fragmentDemoTvContent.setText("Demo碎片ViewBinding");
+        mViewBinding.fragmentMineTvContent.setText("Mine碎片ViewBinding");
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onClickDoubleListener(View paramView) throws RuntimeException {
-        if (paramView.getId() == R.id.fragment_demo_tv_content) {
-            new DialogBuilder(requireActivity())
-                    .setDialogCancelable(true)
-                    .setDialogCanceledOnTouchOutside(true)
-                    .setData(new ADCalendarEntity())
-                    .setOnDialogListener(new DialogBuilder.OnDialogBuilderListener() {
-                        @Override
-                        public void itemClick(String log) {
-                            ADSnackBarManager.getInstance().show(getActivity(), log,R.color.color_7c7c7c);
-                        }
 
-                        @Override
-                        public void onDismiss() {
-
-                        }
-                    })
-                    .showDialogFragment();
-        }
     }
 
     @Override
     protected void setListener() throws RuntimeException {
-        mViewBinding.fragmentDemoTvContent.setOnClickListener(this);
+        mViewBinding.fragmentMineTvContent.setText("");
     }
 
     @Override

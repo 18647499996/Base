@@ -13,8 +13,6 @@ import com.gyf.immersionbar.ImmersionBar;
 import java.io.IOException;
 import java.util.Calendar;
 
-import butterknife.ButterKnife;
-
 
 /**
  * Description：Activity通用管理
@@ -22,21 +20,21 @@ import butterknife.ButterKnife;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public abstract class ADBaseActivity<P extends ADBasePresenter> extends AppCompatActivity implements View.OnClickListener {
+public abstract class ADBaseActivity<P extends ADBasePresenter, V> extends AppCompatActivity implements View.OnClickListener {
 
     public ImmersionBar immersionBar;
     private long lastClickTime = 0;
 
     protected P mPresenter;
+    protected V mViewBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             // 初始化布局
-            setContentView(getLayout());
-            // 初始化ButterKnife
-            ButterKnife.bind(this);
+            mViewBinding = getActivityBinding();
+            setContentView(getViewBindingLayout());
             // 初始化标题
             initBuilderTitle();
             // 初始化数据
@@ -51,12 +49,20 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends AppCompa
 
 
     /**
-     * 初始化布局
+     * 构建ActivityViewBinding实例
      *
-     * @return 布局文件资源id
-     * @throws RuntimeException 异常捕获
+     * @return V
+     * @throws RuntimeException
      */
-    protected abstract int getLayout() throws RuntimeException;
+    protected abstract V getActivityBinding() throws RuntimeException;
+
+    /**
+     * 加载ViewBinding布局
+     *
+     * @return View
+     */
+    protected abstract View getViewBindingLayout() throws RuntimeException;
+
 
     /**
      * 初始化标题
@@ -142,7 +148,6 @@ public abstract class ADBaseActivity<P extends ADBasePresenter> extends AppCompa
         // 初始化沉浸式
         immersionBar = ImmersionBar.with(this);
         immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init();
-
         mPresenter = createPresenter();
         if (null != mPresenter) {
             mPresenter.onSubscribe();

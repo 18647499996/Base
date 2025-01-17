@@ -2,22 +2,22 @@ package com.liudonghan.base.main;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
-import androidx.annotation.NonNull;
 
 import com.liudonghan.base.R;
+import com.liudonghan.base.databinding.ActivityMainBinding;
+import com.liudonghan.base.fragment.DemoFragment;
+import com.liudonghan.base.fragment.FansFragment;
+import com.liudonghan.base.fragment.MineFragment;
 import com.liudonghan.mvp.ADBaseActivity;
+import com.liudonghan.view.tabhost.ADFragmentTabHost;
+import com.liudonghan.view.tabhost.ADNavigationEntity;
+import com.liudonghan.view.tabhost.FragmentTabHost;
+import com.liudonghan.view.tabhost.TabHostAdapter;
 import com.liudonghan.view.title.ADTitleBuilder;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description：
@@ -25,15 +25,16 @@ import okhttp3.WebSocketListener;
  * @author Created by: Li_Min
  * Time:
  */
-public class MainActivity extends ADBaseActivity<MainPresenter> implements MainContract.View {
-
-    private OkHttpClient client;
-    private WebSocket webSocket;
-    private WebView webView;
+public class MainActivity extends ADBaseActivity<MainPresenter, ActivityMainBinding> implements MainContract.View, ADFragmentTabHost.OnADFragmentTabHostListener {
 
     @Override
-    protected int getLayout() throws RuntimeException {
-        return R.layout.activity_main;
+    protected View getViewBindingLayout() throws RuntimeException {
+        return mViewBinding.getRoot();
+    }
+
+    @Override
+    protected ActivityMainBinding getActivityBinding() throws RuntimeException {
+        return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
     @Override
@@ -46,19 +47,20 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
         return (MainPresenter) new MainPresenter(this).builder(this);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetTextI18n"})
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
-        client = new OkHttpClient();
-        webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://8.152.213.121:55556/signalr");
+        List<ADNavigationEntity> tabs = new ArrayList<>();
+        tabs.add(new ADNavigationEntity("首页", R.color.color_eb2525, R.color.color_7c7c7c, new DemoFragment(), true));
+        tabs.add(new ADNavigationEntity("发现", R.color.color_eb2525, R.color.color_7c7c7c, new FansFragment(), false));
+        tabs.add(new ADNavigationEntity("推荐", R.color.color_eb2525, R.color.color_7c7c7c, new MineFragment(), false));
+        mViewBinding.activityMainTabHost.setData(tabs);
     }
 
     @Override
     protected void addListener() throws RuntimeException {
-
+        mViewBinding.activityMainTabHost.setUnreadCount(1, 20);
+        mViewBinding.activityMainTabHost.setOnADFragmentTabHostListener(this);
     }
 
     @Override
@@ -68,9 +70,7 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
 
     @Override
     protected void onDestroys() throws RuntimeException {
-        if (webSocket != null) {
-            webSocket.close(1000, "Closing WebSocket");
-        }
+
     }
 
     @Override
@@ -84,4 +84,8 @@ public class MainActivity extends ADBaseActivity<MainPresenter> implements MainC
     }
 
 
+    @Override
+    public void onTabHost(ADNavigationEntity item, int position, FragmentTabHost fragmentTabHost, TabHostAdapter tabHostAdapter) {
+
+    }
 }

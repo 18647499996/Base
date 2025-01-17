@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
 /**
@@ -76,8 +77,8 @@ public class ADBasePopupWindow<T> {
     /**
      * 设置点击外部是否关闭
      *
-     * @param isTouchModal
-     * @return
+     * @param isTouchModal 是否禁用
+     * @return ADBasePopupWindow
      */
     public ADBasePopupWindow<T> setTouchModal(boolean isTouchModal) {
         this.isTouchModal = isTouchModal;
@@ -88,7 +89,7 @@ public class ADBasePopupWindow<T> {
      * 设置数据源
      *
      * @param t t
-     * @return
+     * @return ADBasePopupWindow
      */
     public ADBasePopupWindow<T> setData(T t) {
         this.t = t;
@@ -98,9 +99,9 @@ public class ADBasePopupWindow<T> {
     /**
      * 设置宽高
      *
-     * @param width
-     * @param height
-     * @return
+     * @param width  宽度
+     * @param height 高度
+     * @return ADBasePopupWindow
      */
     public ADBasePopupWindow<T> setWidthHeight(int width, int height) {
         this.width = width;
@@ -113,6 +114,7 @@ public class ADBasePopupWindow<T> {
      *
      * @return ADBasePopupWindow<T>
      */
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public ADBasePopupWindow<T> builder() {
         popupWindow.setContentView(null != contentView ? contentView : adBasePopupWindowLayout.onCreateLayoutId());
         popupWindow.setAnimationStyle(animationStyle);
@@ -121,7 +123,7 @@ public class ADBasePopupWindow<T> {
     }
 
     public void show() {
-        popupWindow.showAsDropDown(anchorView,0,0);
+        popupWindow.showAsDropDown(anchorView, 0, 0);
     }
 
     public void showAtLocation() {
