@@ -2,6 +2,7 @@ package com.liudonghan.base.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.liudonghan.base.databinding.FragmentFansBinding;
@@ -41,6 +42,7 @@ public class FansFragment extends ADBaseFragment<DemoPresenter, FragmentFansBind
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        Log.i("Mac_Liu","创建Fans");
         mViewBinding.fragmentFansTvContent.setText("Fans碎片ViewBinding");
     }
 

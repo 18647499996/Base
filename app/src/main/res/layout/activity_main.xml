@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liudonghan.view.tabhost.ADFragmentTabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liudonghan.base.fragment.FragmentTabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/activity_main_tab_host"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-</com.liudonghan.view.tabhost.ADFragmentTabHost>
+    <RelativeLayout
+        android:id="@+id/activity_new_homepage_rel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/activity_new_homepage_tab"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.1" />
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:showDividers="none"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/activity_new_homepage_tab"
+            layout="@layout/activity_new_homepage_tab"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+</com.liudonghan.base.fragment.FragmentTabHost>

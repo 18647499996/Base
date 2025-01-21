@@ -55,12 +55,7 @@ dependencies {
     // google
     implementation 'com.google.code.gson:gson:2.10'
 
-    implementation 'com.github.18647499996:Component:3.0.9'
+    implementation 'com.github.18647499996:Component:3.1.2'
     implementation 'com.github.18647499996:Utils:2.5.6'
     implementation 'com.github.18647499996:multi-image-selector:2.0.2'
-
-    // 初始化控件插件
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
-
 }

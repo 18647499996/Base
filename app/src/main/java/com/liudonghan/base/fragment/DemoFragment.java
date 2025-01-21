@@ -2,6 +2,7 @@ package com.liudonghan.base.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.liudonghan.base.dialog.DialogBuilder;
@@ -43,6 +44,7 @@ public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBind
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        Log.i("Mac_Liu","创建Home");
         mViewBinding.fragmentDemoTvContent.setText("Demo碎片ViewBinding");
     }
 

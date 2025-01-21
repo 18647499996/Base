@@ -2,6 +2,7 @@ package com.liudonghan.base.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.liudonghan.base.databinding.FragmentMineBinding;
@@ -40,6 +41,7 @@ public class MineFragment extends ADBaseFragment<DemoPresenter, FragmentMineBind
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
+        Log.i("Mac_Liu","创建Mine");
         mViewBinding.fragmentMineTvContent.setText("Mine碎片ViewBinding");
     }
 
