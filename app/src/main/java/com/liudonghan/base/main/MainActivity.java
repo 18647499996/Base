@@ -16,6 +16,9 @@ import com.liudonghan.view.tabhost.FragmentTabHost;
 import com.liudonghan.view.tabhost.TabHostAdapter;
 import com.liudonghan.view.title.ADTitleBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Description：
  *
@@ -47,26 +50,16 @@ public class MainActivity extends ADBaseActivity<MainPresenter, ActivityMainBind
     @SuppressLint({"SetTextI18n"})
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
-//        List<ADNavigationEntity> tabs = new ArrayList<>();
-//        tabs.add(new ADNavigationEntity("首页", R.color.color_eb2525, R.color.color_7c7c7c, new DemoFragment(), true));
-//        tabs.add(new ADNavigationEntity("发现", R.color.color_eb2525, R.color.color_7c7c7c, new FansFragment(), false));
-//        tabs.add(new ADNavigationEntity("推荐", R.color.color_eb2525, R.color.color_7c7c7c, new MineFragment(), false));
-        mViewBinding.tabhost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-        View mDebt = View.inflate(this, R.layout.activity_new_homepage_tab, null);
-        mViewBinding.tabhost.addTab(mViewBinding.tabhost.newTabSpec("1").setIndicator(mDebt), DemoFragment.class, null);
-        View mCity = View.inflate(this, R.layout.activity_new_homepage_tab, null);
-        mViewBinding.tabhost.addTab(mViewBinding.tabhost.newTabSpec("2").setIndicator(mCity), FansFragment.class, null);
-        View mBill = View.inflate(this, R.layout.activity_new_homepage_tab, null);
-        mViewBinding.tabhost.addTab(mViewBinding.tabhost.newTabSpec("3").setIndicator(mBill), MineFragment.class, null);
+        List<ADNavigationEntity> tabs = new ArrayList<>();
+        tabs.add(new ADNavigationEntity("首页", R.color.color_eb2525, R.color.color_7c7c7c, new DemoFragment(), true));
+        tabs.add(new ADNavigationEntity("发现", R.color.color_eb2525, R.color.color_7c7c7c, new FansFragment(), false));
+        tabs.add(new ADNavigationEntity("推荐", R.color.color_eb2525, R.color.color_7c7c7c, new MineFragment(), false));
+        mViewBinding.activityMainTabHost.setData(tabs);
     }
 
     @Override
     protected void addListener() throws RuntimeException {
-        mViewBinding.activityNewHomepageTab.activityMainTabTvHome.setOnClickListener(v -> mViewBinding.tabhost.setCurrentTabByTag("1"));
-        mViewBinding.activityNewHomepageTab.activityMainTabTvFans.setOnClickListener(v -> mViewBinding.tabhost.setCurrentTabByTag("2"));
-        mViewBinding.activityNewHomepageTab.activityMainTabTvMine.setOnClickListener(v -> mViewBinding.tabhost.setCurrentTabByTag("3"));
-//        mViewBinding.activityMainTabHost.setUnreadCount(1, 20);
-//        mViewBinding.activityMainTabHost.setOnADFragmentTabHostListener(this);
+        mViewBinding.activityMainTabHost.setOnADFragmentTabHostListener(this);
     }
 
     @Override
