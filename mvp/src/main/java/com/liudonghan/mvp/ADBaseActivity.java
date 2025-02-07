@@ -3,15 +3,21 @@ package com.liudonghan.mvp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Calendar;
+import java.util.Objects;
 
 
 /**
@@ -20,7 +26,7 @@ import java.util.Calendar;
  * @author Created by: Li_Min
  * Time:2018/8/4
  */
-public abstract class ADBaseActivity<P extends ADBasePresenter, V> extends AppCompatActivity implements View.OnClickListener {
+public abstract class ADBaseActivity<P extends ADBasePresenter, V extends ViewBinding> extends AppCompatActivity implements View.OnClickListener {
 
     public ImmersionBar immersionBar;
     private long lastClickTime = 0;
@@ -32,9 +38,17 @@ public abstract class ADBaseActivity<P extends ADBasePresenter, V> extends AppCo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
+            // 返回当前类的父类的Type，也就是BaseActivity
+            // getGenericSuperclass() 返回的是 Type 对象，它可以包含泛型信息
+            Type type = this.getClass().getGenericSuperclass();
+            // ParameterizedType 对象 :它代表一个具有实际类型参数的泛型类型
+            if (type instanceof ParameterizedType) {
+                Method method = getMethod((ParameterizedType) type);
+                // 方法调用，获得viewBinding实例
+                mViewBinding = (V) method.invoke(null, getLayoutInflater());
+            }
             // 初始化布局
-            mViewBinding = getActivityBinding();
-            setContentView(getViewBindingLayout());
+            setContentView(Objects.requireNonNull(mViewBinding).getRoot());
             // 初始化标题
             initBuilderTitle();
             // 初始化数据
@@ -47,21 +61,30 @@ public abstract class ADBaseActivity<P extends ADBasePresenter, V> extends AppCo
 
     }
 
+    private static <V extends ViewBinding> Method getMethod(ParameterizedType type) throws NoSuchMethodException {
+        Type[] typeArguments = type.getActualTypeArguments();
+        //获得泛型中的实际类型，可能会存在多个泛型，[0]也就是获得T的type
+        Class<V> vClass = (Class<V>) typeArguments[1];
+        //从 clazz 所代表的类中查找一个名为"inflate" 的公共方法，该方法接受一个 LayoutInflater 类型的参数，
+        // 并返回一个 Method 对象，该对象代表了找到的这个方法。
+        return vClass.getMethod("inflate", LayoutInflater.class);
+    }
 
-    /**
-     * 构建ActivityViewBinding实例
-     *
-     * @return V
-     * @throws RuntimeException
-     */
-    protected abstract V getActivityBinding() throws RuntimeException;
 
-    /**
-     * 加载ViewBinding布局
-     *
-     * @return View
-     */
-    protected abstract View getViewBindingLayout() throws RuntimeException;
+//    /**
+//     * 构建ActivityViewBinding实例
+//     *
+//     * @return V
+//     * @throws RuntimeException
+//     */
+//    protected abstract V getActivityBinding() throws RuntimeException;
+//
+//    /**
+//     * 加载ViewBinding布局
+//     *
+//     * @return View
+//     */
+//    protected abstract View getViewBindingLayout() throws RuntimeException;
 
 
     /**

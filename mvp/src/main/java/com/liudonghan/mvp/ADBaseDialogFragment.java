@@ -5,20 +5,22 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewbinding.ViewBinding;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -28,7 +30,7 @@ import java.util.Objects;
  * @author Created by: Li_Min
  * Time:12/3/21
  */
-public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V> extends DialogFragment implements View.OnClickListener {
+public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V extends ViewBinding> extends DialogFragment implements View.OnClickListener {
 
     private long lastClickTime = 0;
     protected T onDialogFragmentListener;
@@ -48,8 +50,20 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V>
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mViewBinding = getDialogFragmentViewBinding();
-        return getLayoutResourcesId();
+        try {
+            // 返回当前类的父类的Type，也就是BaseActivity
+            // getGenericSuperclass() 返回的是 Type 对象，它可以包含泛型信息
+            Type type = this.getClass().getGenericSuperclass();
+            // ParameterizedType 对象 :它代表一个具有实际类型参数的泛型类型
+            if (type instanceof ParameterizedType) {
+                Method method = getMethod((ParameterizedType) type);
+                // 方法调用，获得viewBinding实例
+                mViewBinding = (V) method.invoke(null, getLayoutInflater());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Objects.requireNonNull(mViewBinding).getRoot();
     }
 
     @Override
@@ -66,7 +80,6 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V>
     @Override
     public void onStart() {
         super.onStart();
-
         Window window = Objects.requireNonNull(getDialog()).getWindow();
         if (window != null) {
             // Dialog弹出方向
@@ -93,12 +106,18 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V>
             if (0 != getWindowAnimations()) {
                 window.setWindowAnimations(getWindowAnimations());
             }
-            WindowManager windowManager = requireActivity().getWindowManager();
-            Display display = windowManager.getDefaultDisplay();
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.width = display.getWidth();
-            window.setAttributes(params);
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, isFullScreen() ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
         }
+    }
+
+
+    private static <V extends ViewBinding> Method getMethod(ParameterizedType type) throws NoSuchMethodException {
+        Type[] typeArguments = type.getActualTypeArguments();
+        //获得泛型中的实际类型，可能会存在多个泛型，[0]也就是获得T的type
+        Class<V> vClass = (Class<V>) typeArguments[2];
+        //从 clazz 所代表的类中查找一个名为"inflate" 的公共方法，该方法接受一个 LayoutInflater 类型的参数，
+        // 并返回一个 Method 对象，该对象代表了找到的这个方法。
+        return vClass.getMethod("inflate", LayoutInflater.class);
     }
 
     @Override
@@ -115,26 +134,24 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V>
     }
 
     /**
-     * 构建ViewBinding实例
-     *
-     * @return V
-     */
-    protected abstract V getDialogFragmentViewBinding();
-
-
-    /**
-     * 添加Dialog弹窗布局
-     *
-     * @return 布局ID
-     */
-    protected abstract View getLayoutResourcesId();
-
-    /**
-     * 弹出方向
+     * Dialog弹窗控件元素显示方向
+     * GravityDirection.CENTER （ 居中 ）
+     * GravityDirection.TOP    （ 顶部 ）
+     * GravityDirection.LEFT   （ 左侧 ）
+     * GravityDirection.RIGHT  （ 右侧 ）
+     * GravityDirection.BOTTOM （ 底部 ）
      *
      * @return GravityDirection
      */
     protected abstract GravityDirection getGravityDirection();
+
+    /**
+     * 是否全屏显示
+     *
+     * @return true 全屏 false 包裹
+     */
+    protected abstract boolean isFullScreen();
+
 
     /**
      * Dialog显示动画
@@ -202,7 +219,6 @@ public abstract class ADBaseDialogFragment<T extends ADBaseDialogListener, P, V>
      */
     public ADBaseDialogFragment<T, P, V> showDialogFragment(FragmentManager manager, String tag) {
         show(manager, tag);
-
         return this;
     }
 

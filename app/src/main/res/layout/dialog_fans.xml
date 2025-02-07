@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liudonghan.view.radius.ADConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_eb2525">
+    android:layout_height="match_parent">
 
     <com.liudonghan.view.radius.ADTextView
         android:id="@+id/dialog_fans_tv_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="200dp"
         android:layout_marginLeft="@dimen/dip_12"
         android:layout_marginRight="@dimen/dip_12"
         android:background="@color/color_505257"
         android:gravity="center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:liu_round_corner="5dp"
         tools:text="DialogFragment弹窗" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.liudonghan.view.radius.ADConstraintLayout>

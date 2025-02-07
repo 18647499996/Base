@@ -2,6 +2,7 @@ package com.liudonghan.base.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -28,18 +29,13 @@ public class DialogBuilder extends ADBaseDialog<DialogBuilder.OnDialogBuilderLis
     }
 
     @Override
-    protected DialogBuilderBinding getDialogViewBinding() {
-        return DialogBuilderBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public View getLayoutResourcesId() {
-        return mViewBinding.getRoot();
-    }
-
-    @Override
     protected GravityDirection getGravityDirection() {
         return GravityDirection.TOP;
+    }
+
+    @Override
+    protected boolean isFullScreen() {
+        return false;
     }
 
     @Override
@@ -49,7 +45,7 @@ public class DialogBuilder extends ADBaseDialog<DialogBuilder.OnDialogBuilderLis
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void initData() {
+    protected void initData(Bundle savedInstanceState) {
         mViewBinding.dialogBuilderTvContent.setText("Dialog弹窗ViewBinding");
 
     }

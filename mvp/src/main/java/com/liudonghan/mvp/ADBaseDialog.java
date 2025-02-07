@@ -1,24 +1,25 @@
 package com.liudonghan.mvp;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.viewbinding.ViewBinding;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Calendar;
-
-//import butterknife.ButterKnife;
-//import butterknife.Unbinder;
+import java.util.Objects;
 
 /**
  * Description：
@@ -26,7 +27,7 @@ import java.util.Calendar;
  * @author Created by: Li_Min
  * Time:2/10/23
  */
-public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V> extends Dialog implements View.OnClickListener {
+public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V extends ViewBinding> extends Dialog implements View.OnClickListener {
 
     protected Context context;
     //    public Unbinder bind;
@@ -37,16 +38,50 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V> extends
     private boolean cancelable = true;
     private boolean canceledOnTouchOutside = true;
 
-    protected abstract View getLayoutResourcesId();
-
+    /**
+     * Dialog弹窗控件元素显示方向
+     * GravityDirection.CENTER （ 居中 ）
+     * GravityDirection.TOP    （ 顶部 ）
+     * GravityDirection.LEFT   （ 左侧 ）
+     * GravityDirection.RIGHT  （ 右侧 ）
+     * GravityDirection.BOTTOM （ 底部 ）
+     *
+     * @return GravityDirection
+     */
     protected abstract GravityDirection getGravityDirection();
 
+    /**
+     * 是否全屏显示
+     *
+     * @return true 全屏 false 包裹
+     */
+    protected abstract boolean isFullScreen();
+
+    /**
+     * Dialog显示动画
+     *
+     * @return style动画
+     */
     protected abstract int getWindowAnimations();
 
-    protected abstract void initData();
+    /**
+     * 初始化数据
+     *
+     * @param savedInstanceState intent实例
+     */
+    protected abstract void initData(Bundle savedInstanceState);
 
+    /**
+     * 初始化监听
+     */
     protected abstract void initListener();
 
+    /**
+     * 设置点击事件
+     *
+     * @param v 视图控件
+     * @throws RuntimeException 异常捕获
+     */
     protected abstract void onClickDoubleListener(View v);
 
     public ADBaseDialog(@NonNull Context context) {
@@ -62,15 +97,27 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V> extends
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewBinding = getDialogViewBinding();
-        setContentView(getLayoutResourcesId());
-        initData();
+        try {
+            // 返回当前类的父类的Type，也就是BaseActivity
+            // getGenericSuperclass() 返回的是 Type 对象，它可以包含泛型信息
+            Type type = this.getClass().getGenericSuperclass();
+            // ParameterizedType 对象 :它代表一个具有实际类型参数的泛型类型
+            if (type instanceof ParameterizedType) {
+                Method method = getMethod((ParameterizedType) type);
+                // 方法调用，获得viewBinding实例
+                mViewBinding = (V) method.invoke(null, getLayoutInflater());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setContentView(Objects.requireNonNull(mViewBinding).getRoot());
+        initData(savedInstanceState);
         initListener();
         setCancelable(cancelable);
         setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
 
-    protected abstract V getDialogViewBinding();
+//    protected abstract V getDialogViewBinding();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("RtlHardcoded")
@@ -103,12 +150,17 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V> extends
             if (0 != getWindowAnimations()) {
                 window.setWindowAnimations(getWindowAnimations());
             }
-            WindowManager windowManager = ((Activity) context).getWindowManager();
-            Display display = windowManager.getDefaultDisplay();
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.width = display.getWidth();
-            window.setAttributes(params);
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, isFullScreen() ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
         }
+    }
+
+    private static <V extends ViewBinding> Method getMethod(ParameterizedType type) throws NoSuchMethodException {
+        Type[] typeArguments = type.getActualTypeArguments();
+        //获得泛型中的实际类型，可能会存在多个泛型，[0]也就是获得T的type
+        Class<V> vClass = (Class<V>) typeArguments[2];
+        //从 clazz 所代表的类中查找一个名为"inflate" 的公共方法，该方法接受一个 LayoutInflater 类型的参数，
+        // 并返回一个 Method 对象，该对象代表了找到的这个方法。
+        return vClass.getMethod("inflate", LayoutInflater.class);
     }
 
     @Override
@@ -160,8 +212,9 @@ public abstract class ADBaseDialog<L extends ADBaseDialogListener, T, V> extends
     /**
      * 显示弹窗
      */
-    public void showDialogFragment() {
+    public ADBaseDialog<L, T, V> showDialogFragment() {
         show();
+        return this;
     }
 
     /**

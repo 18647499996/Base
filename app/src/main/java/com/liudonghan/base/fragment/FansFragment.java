@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.liudonghan.base.databinding.DialogFansBinding;
 import com.liudonghan.base.databinding.FragmentFansBinding;
 import com.liudonghan.base.dialog.FansDialogBuilder;
+import com.liudonghan.mvp.ADBaseDialogFragment;
 import com.liudonghan.mvp.ADBaseFragment;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
@@ -19,15 +21,15 @@ import com.liudonghan.view.title.ADTitleBuilder;
  */
 public class FansFragment extends ADBaseFragment<DemoPresenter, FragmentFansBinding> implements DemoContract.View {
 
-    @Override
-    protected View getViewBindingLayout() {
-        return mViewBinding.getRoot();
-    }
-
-    @Override
-    protected FragmentFansBinding getFragmentViewBinding() {
-        return FragmentFansBinding.inflate(getLayoutInflater());
-    }
+//    @Override
+//    protected View getViewBindingLayout() {
+//        return mViewBinding.getRoot();
+//    }
+//
+//    @Override
+//    protected FragmentFansBinding getFragmentViewBinding() {
+//        return FragmentFansBinding.inflate(getLayoutInflater());
+//    }
 
     @Override
     protected ADTitleBuilder initBuilderTitle(View view) throws RuntimeException {
@@ -42,7 +44,7 @@ public class FansFragment extends ADBaseFragment<DemoPresenter, FragmentFansBind
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData(Bundle savedInstanceState) throws RuntimeException {
-        Log.i("Mac_Liu","创建Fans");
+        Log.i("Mac_Liu", "创建Fans");
         mViewBinding.fragmentFansTvContent.setText("Fans碎片ViewBinding");
     }
 
@@ -56,7 +58,7 @@ public class FansFragment extends ADBaseFragment<DemoPresenter, FragmentFansBind
         mViewBinding.fragmentFansTvContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FansDialogBuilder()
+                FansDialogBuilder fansDialogBuilder = (FansDialogBuilder) new FansDialogBuilder()
                         .showDialogFragment(requireActivity().getSupportFragmentManager(), "tag");
             }
         });

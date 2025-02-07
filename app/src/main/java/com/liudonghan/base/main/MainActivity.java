@@ -27,15 +27,15 @@ import java.util.List;
  */
 public class MainActivity extends ADBaseActivity<MainPresenter, ActivityMainBinding> implements MainContract.View, ADFragmentTabHost.OnADFragmentTabHostListener {
 
-    @Override
-    protected View getViewBindingLayout() throws RuntimeException {
-        return mViewBinding.getRoot();
-    }
-
-    @Override
-    protected ActivityMainBinding getActivityBinding() throws RuntimeException {
-        return ActivityMainBinding.inflate(getLayoutInflater());
-    }
+//    @Override
+//    protected View getViewBindingLayout() throws RuntimeException {
+//        return mViewBinding.getRoot();
+//    }
+//
+//    @Override
+//    protected ActivityMainBinding getActivityBinding() throws RuntimeException {
+//        return ActivityMainBinding.inflate(getLayoutInflater());
+//    }
 
     @Override
     protected ADTitleBuilder initBuilderTitle() throws RuntimeException {

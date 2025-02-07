@@ -18,15 +18,15 @@ import com.liudonghan.view.title.ADTitleBuilder;
  */
 public class MineFragment extends ADBaseFragment<DemoPresenter, FragmentMineBinding> implements DemoContract.View {
 
-    @Override
-    protected View getViewBindingLayout() {
-        return mViewBinding.getRoot();
-    }
-
-    @Override
-    protected FragmentMineBinding getFragmentViewBinding() {
-        return FragmentMineBinding.inflate(getLayoutInflater());
-    }
+//    @Override
+//    protected View getViewBindingLayout() {
+//        return mViewBinding.getRoot();
+//    }
+//
+//    @Override
+//    protected FragmentMineBinding getFragmentViewBinding() {
+//        return FragmentMineBinding.inflate(getLayoutInflater());
+//    }
 
     @Override
     protected ADTitleBuilder initBuilderTitle(View view) throws RuntimeException {
