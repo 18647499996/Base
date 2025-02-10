@@ -21,16 +21,6 @@ import com.liudonghan.view.title.ADTitleBuilder;
  */
 public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBinding> implements DemoContract.View {
 
-//    @Override
-//    protected View getViewBindingLayout() {
-//        return mViewBinding.getRoot();
-//    }
-//
-//    @Override
-//    protected FragmentDemoBinding getFragmentViewBinding() {
-//        return FragmentDemoBinding.inflate(getLayoutInflater());
-//    }
-
     @Override
     protected ADTitleBuilder initBuilderTitle(View view) throws RuntimeException {
         return null;
