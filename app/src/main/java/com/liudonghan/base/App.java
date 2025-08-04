@@ -1,6 +1,8 @@
 package com.liudonghan.base;
 
 import android.app.Application;
+import android.os.Build;
+import android.os.StrictMode;
 
 import com.liudonghan.mvp.ADBaseExceptionManager;
 import com.liudonghan.mvp.ADBaseRetrofitManager;
@@ -15,6 +17,11 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            builder.detectFileUriExposure();
+        }
         ADBaseRetrofitManager
                 .getInstance()
                 .addMultiOkHttpClient("https://loginf.lawxp.com/", 1, OkHttpUtils.getInstance().getAuthServiceConfig())

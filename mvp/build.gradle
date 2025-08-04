@@ -16,12 +16,12 @@ afterEvaluate {
     }
 }
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode VERSION_CODE.toInteger()
         versionName VERSION_NAME.toString()
 
@@ -30,16 +30,41 @@ android {
         multiDexEnabled true
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../liu.keystore")
+            storePassword "123456"
+            keyAlias "key"
+            keyPassword "123456"
+        }
+    }
+
+    buildTypes {
+        release {
+            zipAlignEnabled true
+            signingConfig signingConfigs.release  //使用上述签名信息
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "isProduction", "false"
+        }
+        debug {
+            minifyEnabled false
+            //debug时使用release签名
+            signingConfig signingConfigs.release
+            //Zip代码压缩优化
+            zipAlignEnabled true
+            buildConfigField "boolean", "isProduction", "false"
+        }
+        predebug.initWith(debug)
+        predebug {
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "isProduction", "true"
+        }
     }
 
     buildFeatures {
@@ -49,10 +74,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 
     // RxJava3 Android
     api 'io.reactivex.rxjava3:rxandroid:3.0.2'

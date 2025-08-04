@@ -1,8 +1,13 @@
 package com.liudonghan.base.main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.liudonghan.base.R;
 import com.liudonghan.base.databinding.ActivityMainBinding;
@@ -18,6 +23,7 @@ import com.liudonghan.view.title.ADTitleBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Description：
@@ -26,16 +32,6 @@ import java.util.List;
  * Time:
  */
 public class MainActivity extends ADBaseActivity<MainPresenter, ActivityMainBinding> implements MainContract.View, ADFragmentTabHost.OnADFragmentTabHostListener {
-
-//    @Override
-//    protected View getViewBindingLayout() throws RuntimeException {
-//        return mViewBinding.getRoot();
-//    }
-//
-//    @Override
-//    protected ActivityMainBinding getActivityBinding() throws RuntimeException {
-//        return ActivityMainBinding.inflate(getLayoutInflater());
-//    }
 
     @Override
     protected ADTitleBuilder initBuilderTitle() throws RuntimeException {
@@ -60,6 +56,20 @@ public class MainActivity extends ADBaseActivity<MainPresenter, ActivityMainBind
     @Override
     protected void addListener() throws RuntimeException {
         mViewBinding.activityMainTabHost.setOnADFragmentTabHostListener(this);
+//        if (getPackageManager().getLaunchIntentForPackage("cn.gov.chinatax.gt4.app") != null) {
+//            // App已安装
+//
+//            Log.i("已下载","s");
+//        } else {
+//            // 引导用户下载（跳转至应用市场）
+//            Log.i("未下载","Ï");
+//        }
+        Intent intent = new Intent();
+        intent.setPackage("cn.gov.chinatax.gt4.app"); // 税务App包名（需确认实际包名）
+//        intent.setAction("android.intent.action.VIEW");
+//        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setData(Uri.parse("gt4app://taxapp/qrcode/scan?defaultHandle=true")); // 假设的Deep Link格式
+        startActivityForResult(intent, 200);
     }
 
     @Override
@@ -86,5 +96,16 @@ public class MainActivity extends ADBaseActivity<MainPresenter, ActivityMainBind
     @Override
     public void onTabHost(ADNavigationEntity item, int position, FragmentTabHost fragmentTabHost, TabHostAdapter tabHostAdapter) {
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && resultCode == RESULT_OK) {
+            String authResult = Objects.requireNonNull(data).getStringExtra("auth_result");
+            // 处理认证成功/失败逻辑
+            Log.i("~~~~~~",authResult);
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.liudonghan.base.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,8 @@ import com.liudonghan.mvp.ADBaseFragment;
 import com.liudonghan.view.calendar.ADCalendarEntity;
 import com.liudonghan.view.snackbar.ADSnackBarManager;
 import com.liudonghan.view.title.ADTitleBuilder;
+
+import java.util.Objects;
 
 /**
  * Description：
@@ -37,7 +41,6 @@ public class DemoFragment extends ADBaseFragment<DemoPresenter, FragmentDemoBind
         Log.i("Mac_Liu","创建Home");
         mViewBinding.fragmentDemoTvContent.setText("Demo碎片ViewBinding");
     }
-
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onClickDoubleListener(View paramView) throws RuntimeException {

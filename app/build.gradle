@@ -1,26 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.liudonghan.base"
-        minSdkVersion 17
-        targetSdkVersion 31
+        minSdkVersion 24
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 
     compileOptions {
@@ -34,6 +26,29 @@ android {
             storePassword "123456"
             keyAlias "key"
             keyPassword "123456"
+        }
+    }
+
+    buildTypes {
+        release {
+            zipAlignEnabled true
+            signingConfig signingConfigs.release  //使用上述签名信息
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "isProduction", "false"
+        }
+        debug {
+            minifyEnabled false
+            //debug时使用release签名
+            signingConfig signingConfigs.release
+            //Zip代码压缩优化
+            zipAlignEnabled true
+            buildConfigField "boolean", "isProduction", "false"
+        }
+        predebug.initWith(debug)
+        predebug {
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "isProduction", "true"
         }
     }
 

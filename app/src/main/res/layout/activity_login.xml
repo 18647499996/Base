@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.liudonghan.view.radius.ADConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.liudonghan.view.radius.ADImageView
+        android:id="@+id/activity_login_img_logo"
+        android:layout_width="140dp"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="120dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.liudonghan.view.radius.ADEditText
+        android:id="@+id/activity_login_edt_phone"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="#f4f3f3"
+        android:gravity="center_vertical"
+        android:hint="Phone number, email or username"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textColor="@color/color_342e2e"
+        android:textColorHint="@color/color_7c7c7c"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_img_logo"
+        app:liu_round_corner_bottom_left="8dp"
+        app:liu_round_corner_bottom_right="8dp"
+        app:liu_round_corner_top_left="8dp"
+        app:liu_round_corner_top_right="8dp"
+        android:text="liudonghan"
+        tools:ignore="HardcodedText" />
+
+    <com.liudonghan.view.radius.ADEditText
+        android:id="@+id/activity_login_edt_password"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/activity_login_edt_phone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#f4f3f3"
+        android:gravity="center_vertical"
+        android:hint="Password"
+        android:text="liudonghan"
+        android:inputType="textPassword"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+
+        android:textColor="@color/color_342e2e"
+        android:textColorHint="@color/color_7c7c7c"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_edt_phone"
+        app:liu_round_corner_bottom_left="8dp"
+        app:liu_round_corner_bottom_right="8dp"
+        app:liu_round_corner_top_left="8dp"
+        app:liu_round_corner_top_right="8dp"
+        tools:ignore="HardcodedText" />
+
+    <com.liudonghan.view.radius.ADButton
+        android:id="@+id/activity_login_btn_send"
+        android:layout_width="314dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="#01a4f3"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_edt_password"
+        app:liu_round_corner_bottom_left="8dp"
+        app:liu_round_corner_bottom_right="8dp"
+        app:liu_round_corner_top_left="8dp"
+        app:liu_round_corner_top_right="8dp" />
+
+    <com.liudonghan.view.radius.ADTextView
+        android:id="@+id/activity_login_tv_forgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dip_18"
+        android:text="Forgot your login details? Get help signing in."
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_btn_send" />
+
+    <View
+        android:id="@+id/activity_login_view_line"
+        android:layout_width="0dp"
+        android:layout_height="0.67dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/color_ebebeb"
+        app:layout_constraintBottom_toBottomOf="@id/activity_login_tv_or"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/activity_login_tv_or"
+        app:layout_constraintTop_toTopOf="@id/activity_login_tv_or" />
+
+    <TextView
+        android:id="@+id/activity_login_tv_or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="OR"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_tv_forgot" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.67dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="50dp"
+        android:layout_weight="2.8"
+        android:background="@color/color_ebebeb"
+        app:layout_constraintBottom_toBottomOf="@id/activity_login_tv_or"
+        app:layout_constraintLeft_toRightOf="@id/activity_login_tv_or"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/activity_login_tv_or" />
+
+
+    <TextView
+        android:id="@+id/activity_login_tv_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Don't have an account? Sign up."
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</com.liudonghan.view.radius.ADConstraintLayout>
