@@ -35,14 +35,20 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, V extends ViewBi
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // 如果 mViewBinding 已经存在，说明视图虽然从父容器解绑了，但“肉身”还在内存里
+        if (mViewBinding != null) {
+            // 避开多层嵌套时可能引发的 "The specified child already has a parent" 异常
+            ViewGroup parent = (ViewGroup) mViewBinding.getRoot().getParent();
+            if (parent != null) {
+                parent.removeView(mViewBinding.getRoot());
+            }
+            return mViewBinding.getRoot(); // 🚀 直接复用老视图，后面的 initData 统统不会重复触发！
+        }
+
         try {
-            // 返回当前类的父类的Type，也就是BaseActivity
-            // getGenericSuperclass() 返回的是 Type 对象，它可以包含泛型信息
             Type type = this.getClass().getGenericSuperclass();
-            // ParameterizedType 对象 :它代表一个具有实际类型参数的泛型类型
             if (type instanceof ParameterizedType) {
                 Method method = getMethod((ParameterizedType) type);
-                // 方法调用，获得viewBinding实例
                 mViewBinding = (V) method.invoke(null, getLayoutInflater());
             }
         } catch (Exception e) {
@@ -135,7 +141,7 @@ public abstract class ADBaseFragment<P extends ADBasePresenter, V extends ViewBi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mViewBinding = null;
+//        mViewBinding = null;
     }
 
     @Override
